@@ -82,4 +82,20 @@ export class MenusController {
       next(error);
     }
   };
+
+  delete = async (req, res, next) => {
+    try {
+      //path parameters에서 restaurantId 추출
+      const { menuId, restaurantId } = req.params;
+
+      await this.menusService.delete(menuId, restaurantId);
+
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: "메뉴 삭제가 완료되었습니다.",
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

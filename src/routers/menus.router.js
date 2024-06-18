@@ -17,6 +17,6 @@ menusRouter.get("/:restaurantId/menus/:menuId", menusController.readById);
 menusRouter.patch("/:restaurantId/menus/:menuId", menusController.update);
 
 // //메뉴 삭제
-// menusRouter.delete("/:restaurantId/menus/:menuId", menusController.delete);
+menusRouter.delete("/:restaurantId/menus/:menuId", menusController.delete);
 
 export { menusRouter };

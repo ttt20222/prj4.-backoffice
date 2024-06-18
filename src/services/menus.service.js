@@ -52,4 +52,9 @@ export class MenusService {
     );
     return updatedMenu;
   };
+
+  delete = async (menuId, restaurantId) => {
+    const deletedMenu = await this.menusRepository.delete(menuId, restaurantId);
+    return deletedMenu;
+  };
 }

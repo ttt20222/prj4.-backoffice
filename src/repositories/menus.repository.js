@@ -79,4 +79,11 @@ export class MenusRepository {
     });
     return updatedMenu;
   };
+
+  delete = async (menuId, restaurantId) => {
+    const deletedMenu = await prisma.menu.delete({
+      where: { menuId: +menuId, RestaurantId: +restaurantId },
+    });
+    return deletedMenu;
+  };
 }
