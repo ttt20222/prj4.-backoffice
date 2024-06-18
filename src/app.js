@@ -1,11 +1,11 @@
 import express from "express";
+import { SERVER_PORT } from "./constants/env.constant.js";
 
 const app = express();
-const PORT = 3018;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(PORT, () => {
-    console.log(PORT, '포트로 서버가 열렸어요!');
+app.listen(SERVER_PORT, () => {
+    console.log(SERVER_PORT, '포트로 서버가 열렸어요!');
   });
