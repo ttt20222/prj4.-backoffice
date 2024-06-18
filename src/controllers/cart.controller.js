@@ -52,13 +52,33 @@ export class CartController {
 
             const cart = await cartService.updateCartMenuCount(menuCount,menuId);
 
-            return res.status(HTTP_STATUS.OK).json({
+            return res.status(HTTP_STATUS.CREATED).json({
                 staus: HTTP_STATUS.OK,
                 message: "내 장바구니 메뉴 수량 수정에 성공했습니다.",
                 data: cart,
             });
 
         } catch(error){
+            next(error);
+        }
+    };
+
+    //장바구니 메뉴 삭제
+    deleteCartMenu = async (req, res, next) => {
+        try {
+            //const { userId } = req.user;
+            const params = req.params;
+            const menuId = params.menusId;
+
+            const cart = await cartService.deleteCartMenu(menuId);
+
+            return res.status(HTTP_STATUS.CREATED).json({
+                staus: HTTP_STATUS.OK,
+                message: "내 장바구니 메뉴 삭제에 성공했습니다.",
+                data: cart,
+            });
+
+        }catch(error){
             next(error);
         }
     }

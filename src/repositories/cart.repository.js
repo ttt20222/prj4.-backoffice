@@ -63,5 +63,21 @@ export class CartRepository {
         });
 
         return updateCartMenuCount;
+    };
+
+    deleteCartMenu = async (menuId) => {
+        const findCartId = await prisma.Cart.findFirst({
+            where: { UserId : 1},
+            select : {cartId: true}
+        });
+
+        const deleteCartMenu = await prisma.CartDetail.delete({
+            where: {
+                CartId : findCartId.cartId,
+                MenuId : +menuId,
+            },
+        });
+
+        return deleteCartMenu;
     }
 }

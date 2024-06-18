@@ -8,5 +8,6 @@ const cartController = new CartController();
 router.post('/', cartController.createCart);
 router.get('/', cartController.readCart);
 router.patch('/menus/:menusId', cartController.updateCartMenuCount);
+router.delete('/menus/:menusId', cartController.deleteCartMenu);
 
 export default router;

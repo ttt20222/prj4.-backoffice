@@ -29,5 +29,11 @@ export class CartService {
         const returnCarts = await this.readCarts();
 
         return returnCarts;
+    };
+
+    deleteCartMenu = async (menuId) => {
+        const deleteCartMenu = await cartRepository.deleteCartMenu(menuId);
+
+        return deleteCartMenu.MenuId;
     }
 }
