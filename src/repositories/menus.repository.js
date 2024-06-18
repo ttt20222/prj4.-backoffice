@@ -16,7 +16,7 @@ export class MenusRepository {
         menuType,
         menuDescription,
         menuImageUrl,
-        Restaurant: { connect: { restaurantId: restaurantId } },
+        Restaurant: { connect: { restaurantId: +restaurantId } },
       },
     });
     return createdMenu;
@@ -55,5 +55,28 @@ export class MenusRepository {
     };
 
     return menu;
+  };
+
+  update = async (
+    restaurantId,
+    menuId,
+    menuName,
+    menuPrice,
+    menuType,
+    menuDescription,
+    menuImageUrl
+  ) => {
+    const updatedMenu = await prisma.menu.update({
+      where: { menuId: +menuId },
+      data: {
+        menuName,
+        menuPrice,
+        menuType,
+        menuDescription,
+        menuImageUrl,
+        RestaurantId: +restaurantId,
+      },
+    });
+    return updatedMenu;
   };
 }

@@ -6,7 +6,7 @@ export class MenusController {
   create = async (req, res, next) => {
     try {
       //path parameters에서 restaurantId 추출
-      const restaurantId = parseInt(req.params.restaurantId);
+      const { restaurantId } = req.params;
       //req.body에서 데이터 추출
       const { menuName, menuPrice, menuType, menuDescription, menuImageUrl } =
         req.body;
@@ -50,6 +50,34 @@ export class MenusController {
       const menu = await this.menusService.readById(restaurantId, menuId);
 
       return res.status(HTTP_STATUS.OK).json({ status: HTTP_STATUS.OK, menu });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  update = async (req, res, next) => {
+    try {
+      //path parameters에서 restaurantId 추출
+      const { restaurantId, menuId } = req.params;
+      //req.body에서 데이터 추출
+      const { menuName, menuPrice, menuType, menuDescription, menuImageUrl } =
+        req.body;
+
+      const updatedMenu = await this.menusService.update(
+        restaurantId,
+        menuId,
+        menuName,
+        menuPrice,
+        menuType,
+        menuDescription,
+        menuImageUrl
+      );
+
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: "메뉴수정이 완료되었습니다.",
+        updatedMenu,
+      });
     } catch (error) {
       next(error);
     }

@@ -31,4 +31,25 @@ export class MenusService {
     const menu = await this.menusRepository.readById(restaurantId, menuId);
     return menu;
   };
+
+  update = async (
+    restaurantId,
+    menuId,
+    menuName,
+    menuPrice,
+    menuType,
+    menuDescription,
+    menuImageUrl
+  ) => {
+    const updatedMenu = await this.menusRepository.update(
+      restaurantId,
+      menuId,
+      menuName,
+      menuPrice,
+      menuType,
+      menuDescription,
+      menuImageUrl
+    );
+    return updatedMenu;
+  };
 }
