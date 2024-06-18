@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -76,7 +76,6 @@ model Restaurant {
 
   User    User      @relation(fields: [OwnerId], references: [userId])
   Menu    Menu[]
-  Cart   Cart[]
   Order    Order[]
   Review   Review[]
 
@@ -105,12 +104,11 @@ model Menu {
 model Cart {
   cartId   Int   @id @default(autoincrement()) @map("cart_id")
   UserId   Int   @unique  @map("user_id")
-  RestaurantId   Int     @map("restaurant_id")
+  RestaurantId   Int?     @map("restaurant_id")
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
 
   User    User      @relation(fields: [UserId], references: [userId])
-  Restaurant    Restaurant      @relation(fields: [RestaurantId], references: [restaurantId])
   CartDetail   CartDetail[]
 
   @@map("carts")
