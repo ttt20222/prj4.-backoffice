@@ -17,7 +17,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(SERVER_PORT, () => {
-  console.log(SERVER_PORT, '포트로 서버가 열렸어요!');
+  console.log(SERVER_PORT, "포트로 서버가 열렸어요!");
 });
 
 export default app;
