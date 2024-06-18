@@ -11,7 +11,7 @@ export class CartController {
             //const { userId } = req.user;
             const { restaurantId , menuId, menuCount } = req.body;
 
-            const cart = await cartService.createCartDetail(userId, restaurantId , menuId, menuCount);
+            const cart = await cartService.createCartDetail(restaurantId , menuId, menuCount);
 
             return res.status(HTTP_STATUS.CREATED).json({
                 status: HTTP_STATUS.CREATED,
