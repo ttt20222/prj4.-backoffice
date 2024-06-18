@@ -23,4 +23,43 @@ export class CartRepository {
 
         return createdCartDetail;
     };
+
+    readCarts = async () => {
+        const findCartId = await prisma.Cart.findFirst({
+            where: { UserId : 1},
+            select : {cartId: true}
+        });
+
+        const readCarts = await prisma.CartDetail.findMany({
+            where: { CartId : findCartId.cartId },
+            select: {
+                MenuId : true,
+                Menu : {
+                    select : {
+                        menuName : true,
+                        menuPrice : true,
+                    },
+                },
+                menuCount : true,
+            }
+        });
+
+        return readCarts;
+    };
+
+    updateCartDetail = async (userId, menuCount) => {
+        const findCartId = await prisma.Cart.findFirst({
+            where: { UserId : userId},
+            select : {cartId: true}
+        });
+
+        const updateCartMenuCount = await prisma.CartDetail.update({
+            where: {CartId: findCartId.cartId },
+            data: {
+                menuCount : menuCount
+            },
+        });
+
+        return updateCartMenuCount;
+    }
 }
