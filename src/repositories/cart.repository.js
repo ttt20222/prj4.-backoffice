@@ -47,16 +47,18 @@ export class CartRepository {
         return readCarts;
     };
 
-    updateCartDetail = async (userId, menuCount) => {
+    updateCartDetail = async (menuCount, menuId) => {
         const findCartId = await prisma.Cart.findFirst({
-            where: { UserId : userId},
+            where: { UserId : 1},
             select : {cartId: true}
         });
 
         const updateCartMenuCount = await prisma.CartDetail.update({
-            where: {CartId: findCartId.cartId },
+            where: {
+                CartId: findCartId.cartId,
+                MenuId : +menuId},
             data: {
-                menuCount : menuCount
+                menuCount : menuCount,
             },
         });
 

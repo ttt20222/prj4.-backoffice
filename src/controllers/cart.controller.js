@@ -47,8 +47,10 @@ export class CartController {
         try {
             //const { userId } = req.user;
             const { menuCount } = req.body;
+            const params = req.params;
+            const menuId = params.menusId;
 
-            const cart = await cartService.updateCartMenuCount(userId, menuCount);
+            const cart = await cartService.updateCartMenuCount(menuCount,menuId);
 
             return res.status(HTTP_STATUS.OK).json({
                 staus: HTTP_STATUS.OK,

@@ -7,6 +7,6 @@ const cartController = new CartController();
 
 router.post('/', cartController.createCart);
 router.get('/', cartController.readCart);
-//router.patch('/menus/:menusId', cartController.updateCartMenuCount);
+router.patch('/menus/:menusId', cartController.updateCartMenuCount);
 
 export default router;

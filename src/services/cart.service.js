@@ -23,15 +23,10 @@ export class CartService {
         return returnCarts;
     };
 
-    updateCartMenuCount = async (userId, menuCount) => {
-        const updateCart = await cartRepository.updateCartDetail(userId, menuCount);
+    updateCartMenuCount = async (menuCount, menuId) => {
+        const updateCart = await cartRepository.updateCartDetail(menuCount, menuId);
 
-        const returnCarts = updateCart.map((item) => ({
-            menuId: item.MenuId,
-            menuName: item.Menu.menuName,
-            menuPrice: item.Menu.menuPrice,
-            menuCount: item.menuCount,
-            }));
+        const returnCarts = await this.readCarts();
 
         return returnCarts;
     }
