@@ -12,6 +12,7 @@ import {
     HASH_SALT_ROUNDS,
 } from '../constants/auth.constant.js';
 import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
+import { transporter } from './transporter.js';
 
 const Prisma = new PrismaClient();
 const authRouter = express.Router();
@@ -57,6 +58,23 @@ authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
         });
 
         data.password = undefined;
+
+        // const url = `http://${SERVER_IP}:${SERVER_PORT}/auth/verify-email?email=${email}`;
+        const url = `http://localhost:3000/api/auth/verify-email?email=pcpp0606@gmail.com`;
+        await transporter.sendMail({
+            from: "baemin0404@naver.com",
+            to: email,
+            subject: "[baemin] 회원가입 인증 메일입니다.",
+            html: `<form action="${url}" method="POST">
+          <h2 style="margin: 20px 0">[baemin] 이메일 인증 버튼을 클릭해 주세요.</h2>
+          <p> 인증 유효시간은 3분 입니다. 3분 안에 버튼을 클릭해 주세요! <p>
+          <button style=" background-color: #C0C0C0; color:#000000; width: 80px; height:40px; border-radius: 20px; border: none;">이메일 인증</button>
+         </form>`,
+        });
+        return res.status(201).json({
+            status: 201,
+            message: "인증 이메일을 전송했습니다. 인증 후 회원가입이 완료됩니다.",
+        });
 
         // const [createdUser, createdCart] = await Prisma.$transaction(async (tx) => {
         //     const data = await tx.user.create({

@@ -1,4 +1,5 @@
 import { prisma } from "./utils/prisma/index.js";
+import deleteExpiredUsers from "./utils/prisma/schedulers/deleteExpiredUsers.js";
 import express from "express";
 import { SERVER_PORT } from "./constants/env.constant.js";
 import { apiRouter } from "./routers/router.js"
@@ -18,6 +19,9 @@ app.use((err, req, res, next) => {
 
 app.listen(SERVER_PORT, () => {
   console.log(SERVER_PORT, '포트로 서버가 열렸어요!');
+
+  // 유효기간이 지난 사용자를 주기적으로 삭제
+  setInterval(deleteExpiredUsers, 60 * 1000); // 1분마다 실행
 });
 
 export default app;
