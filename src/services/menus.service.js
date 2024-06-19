@@ -19,8 +19,8 @@ export class MenusService {
       restaurantId,
       menuName
     );
+    // 동일 이름이 존재할 시 에러
     if (existedMenuName) {
-      console.log("메뉴 이름이 이미 존재합니다:", menuName);
       throw new HttpError.BadRequest(MESSAGES.MENUS.COMMON.NAME_ALREADY_EXISTS);
     }
 

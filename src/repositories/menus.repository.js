@@ -32,7 +32,7 @@ export class MenusRepository {
 
   findByMenuName = async (restaurantId, menuName) => {
     const existedMenuName = await prisma.menu.findFirst({
-      where: { RestaurantId: +restaurantId, menuName },
+      where: { restaurantId: +restaurantId, menuName },
       select: {
         menuId: true,
         menuName: true,
@@ -47,7 +47,7 @@ export class MenusRepository {
 
   readAll = async (restaurantId) => {
     let menus = await prisma.menu.findMany({
-      where: { RestaurantId: +restaurantId },
+      where: { restaurantId: +restaurantId },
       orderBy: [{ menuType: "asc" }, { menuPrice: "asc" }],
     });
 
@@ -66,7 +66,7 @@ export class MenusRepository {
 
   readById = async (restaurantId, menuId) => {
     let menu = await prisma.menu.findUnique({
-      where: { RestaurantId: +restaurantId, menuId: +menuId },
+      where: { restaurantId: +restaurantId, menuId: +menuId },
     });
 
     if (!menu) {
@@ -102,7 +102,7 @@ export class MenusRepository {
         menuType,
         menuDescription,
         menuImageUrl,
-        RestaurantId: +restaurantId,
+        restaurantId: +restaurantId,
       },
     });
     return updatedMenu;
@@ -110,7 +110,7 @@ export class MenusRepository {
 
   delete = async (menuId, restaurantId) => {
     const deletedMenu = await prisma.menu.delete({
-      where: { menuId: +menuId, RestaurantId: +restaurantId },
+      where: { menuId: +menuId, restaurantId: +restaurantId },
     });
     return deletedMenu;
   };
