@@ -132,7 +132,7 @@ model CartDetail {
 
 model Order {
   orderId   Int   @id @default(autoincrement()) @map("order_id")
-  UserId   Int   @unique  @map("user_id")
+  UserId   Int   @map("user_id")
   RestaurantId   Int     @map("restaurant_id")
   userRequirment   String   @map("user_requirment")
   orderStatus    OrderStatus @default(READY) @map("order_status")

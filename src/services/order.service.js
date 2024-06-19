@@ -28,4 +28,10 @@ export class OrderService {
             updatedAt: order.updatedAt,
         }));
     };
+
+    updateOrderStatus = async (orderId) => {
+        const order = await orderRepository.updateOrderStatus(orderId);
+
+        return order;
+    };
 }

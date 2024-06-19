@@ -7,5 +7,6 @@ const orderController = new OrderController();
 
 router.post('/', orderController.createOrder);
 router.get('/', orderController.readOrders);
+router.patch('/:orderId', orderController.updateOrderStatus);
 
 export default router;

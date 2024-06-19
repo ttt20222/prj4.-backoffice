@@ -39,7 +39,6 @@ export class OrderRepository {
                     UserId: 1,
                     RestaurantId: findCart.RestaurantId,
                     userRequirment: userRequirment,
-                    orderStatus: '음식 준비중',
                     totalPrice: totalPrice,
                 },
             });
@@ -72,22 +71,33 @@ export class OrderRepository {
     readOrders = async () => {
         const orders = await prisma.$queryRaw
         `select a.order_id as orderId
-        , a.user_id as userId
-        , a.restaurant_id as restaurantId
-        ,c.menu_name as menuName
-        , b.menu_count as menuCount 
-        ,b.menu_price as menuPrice 
-        ,a.total_price as totalPrice
-        , a.user_requirment as userRequirment
-        , a.order_status as orderStatus
-        , a.created_at as createdAt
-        ,a.updated_at as updatedAt
-            from orders a join order_details b
-            on a.order_id  = b.order_id
-            join menus c
-            on b.menu_id = c.menu_id
-            where a.user_id = 1;`
+                , a.user_id as userId
+                , a.restaurant_id as restaurantId
+                ,c.menu_name as menuName
+                , b.menu_count as menuCount 
+                ,b.menu_price as menuPrice 
+                ,a.total_price as totalPrice
+                , a.user_requirment as userRequirment
+                , a.order_status as orderStatus
+                , a.created_at as createdAt
+                ,a.updated_at as updatedAt
+        from orders a join order_details b
+        on a.order_id  = b.order_id
+        join menus c
+        on b.menu_id = c.menu_id
+        where a.user_id = 1;`     //userId 부분 변경 필요
 
         return orders;
+    };
+
+    updateOrderStatus = async (orderId) => {
+        const order = await prisma.Order.update({
+            where: {orderId: +orderId},
+            data: {
+                orderStatus : 'DONE',
+            },
+        });
+
+        return order;
     }
 }
