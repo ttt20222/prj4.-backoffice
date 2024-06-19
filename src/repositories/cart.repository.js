@@ -3,25 +3,25 @@ import { Prisma } from "@prisma/client";
 
 export class CartRepository {
     createCartDetail = async (restaurantId, menuId, menuCount) => {
-        const [createdCartDetail, updatedCart] = await prisma.$transaction(async (tx) => {
+        const [createCartDetail, updateCart] = await prisma.$transaction(async (tx) => {
 
-            const updatedCart = await tx.Cart.update({
+            const updateCart = await tx.Cart.update({
                 where: { UserId: 1 },
                 data: { RestaurantId: restaurantId },
             });
 
-            const createdCartDetail = await tx.CartDetail.create({
+            const createCartDetail = await tx.CartDetail.create({
                 data: {
-                    CartId: updatedCart.cartId,
+                    CartId: updateCart.cartId,
                     MenuId: menuId,
                     menuCount,
                 },
             });
 
-            return [createdCartDetail, updatedCart];
+            return [createCartDetail, updateCart];
         });
 
-        return createdCartDetail;
+        return createCartDetail;
     };
 
     readCarts = async () => {

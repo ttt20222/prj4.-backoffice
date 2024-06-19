@@ -88,7 +88,7 @@ model Menu {
   RestaurantId   Int     @map("restaurant_id")
   menuName      String     @map("menu_name")
   menuImageUrl  String  @map("menu_image_url")
-  menuPrice  String  @map("menu_price")
+  menuPrice  Int  @map("menu_price")
   menuType  String  @map("menu_type")
   menuDescription   String    @map("menu_description")
   createdAt  DateTime   @default(now()) @map("created_at")
@@ -136,6 +136,7 @@ model Order {
   RestaurantId   Int     @map("restaurant_id")
   userRequirment   String   @map("user_requirment")
   orderStatus    String  @map("order_status")
+  totalPrice   Int  @map("total_price")
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
 
