@@ -66,7 +66,7 @@ export class ReviewsService {
     datas = datas.map((rv) => {
       return {
         reviewId: rv.reviewId,
-        nickname: rv.user.nickname,
+        nickname: rv.User.nickname,
         orderId: rv.orderId,
         score: rv.score,
         review: rv.review,

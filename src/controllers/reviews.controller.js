@@ -8,7 +8,7 @@ export class ReviewsController {
   /** 리뷰 생성 C **/
   createReview = async (req, res, next) => {
     try {
-      req.user = { userId: 2 };
+      req.user = { userId: 4 };
       // 1. 필요한 정보 받아오기
       // 1-1. 로그인 정보로부터 user 정보 가져오기
       const { userId } = req.user;
@@ -44,7 +44,7 @@ export class ReviewsController {
   /** 리뷰 조회 R **/
   getReviews = async (req, res, next) => {
     try {
-      req.user = { userId: 2 };
+      req.user = { userId: 4 };
       // 1. 필요한 정보 받아오기
       // 1-1. req.params로부터 restaurantId 가져오기
       const { restaurantId } = req.params;
@@ -69,7 +69,7 @@ export class ReviewsController {
   /** 리뷰 수정 U **/
   updateReview = async (req, res, next) => {
     try {
-      req.user = { userId: 2 };
+      req.user = { userId: 4 };
       // 1. 필요한 정보 받아오기
       // 1-1. 로그인 정보로부터 user 정보 가져오기
       const { userId } = req.user;
@@ -102,7 +102,7 @@ export class ReviewsController {
   /** 리뷰 삭제 D **/
   deleteReview = async (req, res, next) => {
     try {
-      req.user = { userId: 2 };
+      req.user = { userId: 4 };
       // 1. 필요한 정보 가져오기
       // 1-1. 로그인 정보로부터 user 정보 가져오기
       const { userId } = req.user;

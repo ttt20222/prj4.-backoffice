@@ -13,6 +13,8 @@ export class ReviewsRepository {
     // 1. 전달받은 매개변수를 활용하여 리뷰 생성
     // + [reviews] 테이블과 [images] 테이블에
     //   데이터를 동시에 생성해야하므로 트랜잭션
+    let reviewDatas;
+    let reviewImages = [];
     const createdReview = await prisma.$transaction(async (tx) => {
       console.log(files);
       // 1-1. 리뷰 생성
@@ -25,6 +27,7 @@ export class ReviewsRepository {
           review,
         },
       });
+      reviewDatas = createdReview;
       // 1-2. 이미지 저장경로 저장
       if (files) {
         for (let i = 0; i < files.length; i++) {
@@ -40,7 +43,7 @@ export class ReviewsRepository {
       }
     });
     // 2. 생성된 createdReview 정보를 reviewsService로 전달
-    return createdReview;
+    return { reviewDatas, reviewImages };
   };
 
   /** 리뷰 조회 R-List **/

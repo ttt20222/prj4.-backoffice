@@ -33,6 +33,8 @@ export const MESSAGES = {
   RESTAURANTS: {
     COMMON: {
       NOT_FOUND: "존재하지 않는 식당입니다.",
+    },
+  },
   MENUS: {
     COMMON: {
       MENUMANE: {
