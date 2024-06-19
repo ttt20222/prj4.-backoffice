@@ -30,6 +30,12 @@ export class OrderService {
     };
 
     updateOrderStatus = async (orderId) => {
+        const findOrder = await orderRepository.findeOrder(orderId);
+
+        if (!findOrder) {
+            throw new HttpError.BadRequest("해당 주문이 없습니다.");
+        };
+
         const order = await orderRepository.updateOrderStatus(orderId);
 
         return order;

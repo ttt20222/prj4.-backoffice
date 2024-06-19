@@ -99,5 +99,13 @@ export class OrderRepository {
         });
 
         return order;
+    };
+
+    findeOrder = async (orderId) => {
+        const order = await prisma.Order.findFirst({
+            where : {orderId : +orderId},
+        });
+
+        return order;
     }
 }
