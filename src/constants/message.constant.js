@@ -9,6 +9,7 @@ export const MESSAGES = {
       },
       MENUTYPE: {
         REQUIRED: "메뉴 타입을 입력해 주세요.",
+        INVALID: "유효하지 않은 메뉴타입니다.",
       },
       MENUDESCRIPTION: {
         REQUIRED: "메뉴 설명을 입력해 주세요.",

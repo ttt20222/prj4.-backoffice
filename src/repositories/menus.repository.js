@@ -48,9 +48,7 @@ export class MenusRepository {
   readAll = async (restaurantId) => {
     let menus = await prisma.menu.findMany({
       where: { RestaurantId: +restaurantId },
-      orderBy: {
-        menuName: "asc",
-      },
+      orderBy: [{ menuType: "asc" }, { menuPrice: "asc" }],
     });
 
     menus = menus.map((menu) => {

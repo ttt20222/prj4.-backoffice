@@ -1,6 +1,7 @@
 import { MenusRepository } from "../repositories/menus.repository.js";
 import { HttpError } from "../errors/http.error.js";
 import { MESSAGES } from "../constants/message.constant.js";
+import { MENU_TYPES } from "../constants/menu.type.js";
 
 export class MenusService {
   menusRepository = new MenusRepository();
@@ -44,7 +45,10 @@ export class MenusService {
 
   readAll = async (restaurantId) => {
     const menus = await this.menusRepository.readAll(restaurantId);
-    return menus;
+
+    const formattedMenus = menus.map((menu) => this.formatMenuForOutput(menu));
+
+    return formattedMenus;
   };
 
   readById = async (restaurantId, menuId) => {
@@ -55,9 +59,18 @@ export class MenusService {
       throw new HttpError.NotFound(MESSAGES.MENUS.COMMON.NOT_FOUND);
     }
 
-    return menu;
+    const formattedMenu = this.formatMenuForOutput(menu);
+
+    return formattedMenu;
   };
 
+  //메뉴 타입 변환 메서드
+  formatMenuForOutput(menu) {
+    return {
+      ...menu,
+      menuType: MENU_TYPES[menu.menuType],
+    };
+  }
   update = async (
     restaurantId,
     menuId,
