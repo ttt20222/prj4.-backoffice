@@ -16,6 +16,7 @@ import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
 const Prisma = new PrismaClient();
 const authRouter = express.Router();
 
+// 회원가입
 authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
     try {
         const { email, password, name, nickname, phoneNumber, cityAddress, streetAddress, detailAddress } = req.body;
@@ -45,7 +46,43 @@ authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
             },
         });
 
+        const user = await Prisma.user.findFirst({ where: { email } });
+
+        console.log(data.userId);
+
+        const cart = await Prisma.cart.create({
+            data: {
+                userId: data.userId,
+            },
+        });
+
         data.password = undefined;
+
+        // const [createdUser, createdCart] = await Prisma.$transaction(async (tx) => {
+        //     const data = await tx.user.create({
+        //         data: {
+        //             email,
+        //             password: hashedPassword,
+        //             name,
+        //             nickname,
+        //             phoneNumber,
+        //             cityAddress,
+        //             streetAddress,
+        //             detailAddress,
+        //         },
+        //     });
+
+        //     console.log(data.userId);
+        //     const cart = await tx.cart.create({
+        //         data: {
+        //             userId: data.userId,
+        //         },
+        //     });
+
+        //     return [data, cart];
+        // });
+
+        // data.password = undefined;
 
         return res.status(HTTP_STATUS.CREATED).json({
             status: HTTP_STATUS.CREATED,
@@ -53,10 +90,12 @@ authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
             data,
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 });
 
+// 로그인
 authRouter.post('/sign-in', signInValidator, async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -66,6 +105,15 @@ authRouter.post('/sign-in', signInValidator, async (req, res, next) => {
         const isPasswordMatched =
             user && bcrypt.compareSync(password, user.password);
 
+        // 이메일 인증 여부 확인
+        if (user.isEmailValid === false) {
+            return res.status(HTTP_STATUS.FORBIDDEN).json({
+                status: HTTP_STATUS.FORBIDDEN,
+                message: MESSAGES.AUTH.COMMON.EMAIL.ISEMAILVALID,
+            });
+        }
+
+        // 패스워드 확인
         if (!isPasswordMatched) {
             return res.status(HTTP_STATUS.UNAUTHORIZED).json({
                 status: HTTP_STATUS.UNAUTHORIZED,
@@ -83,6 +131,25 @@ authRouter.post('/sign-in', signInValidator, async (req, res, next) => {
             status: HTTP_STATUS.OK,
             message: MESSAGES.AUTH.SIGN_IN.SUCCEED,
             data: { accessToken },
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// 이메일 인증
+authRouter.post('/verify-email', async (req, res, next) => {
+    try {
+        const { email } = req.query;
+
+        await Prisma.user.update({
+            where: { email },
+            data: { isEmailValid: true },
+        });
+
+        return res.status(200).json({
+            status: HTTP_STATUS.OK,
+            message: "이메일 인증에 성공했습니다.",
         });
     } catch (error) {
         next(error);

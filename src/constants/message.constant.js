@@ -7,6 +7,7 @@ export const MESSAGES = {
         REQUIRED: '이메일을 입력해 주세요.',
         INVALID_FORMAT: '이메일 형식이 올바르지 않습니다.',
         DUPLICATED: '이미 가입 된 사용자입니다.',
+        ISEMAILVALID: "이메일 인증을 완료해 주세요.",
       },
       PASSWORD: {
         REQUIRED: '비밀번호를 입력해 주세요.',
