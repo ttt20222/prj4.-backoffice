@@ -48,6 +48,7 @@ export class MenusRepository {
   readAll = async (restaurantId) => {
     let menus = await prisma.menu.findMany({
       where: { restaurantId: +restaurantId },
+      //메뉴타입 오름차순, 가격 오름차순 정렬
       orderBy: [{ menuType: "asc" }, { menuPrice: "asc" }],
     });
 
@@ -70,7 +71,7 @@ export class MenusRepository {
     });
 
     if (!menu) {
-      return null; // 존재하지 않는 경우 null을 반환하도록 수정
+      return null; // 존재하지 않는 경우 null을 반환하도록
     }
 
     menu = {
