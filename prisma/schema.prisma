@@ -14,7 +14,7 @@ model User {
   name         String   @map("name")
   nickname         String   @map("nickname")
   phoneNumber  String  @map("phone_number")
-  role         Role     @default(USER)
+  role         Role     @default(USER)  @map("role")
   cityAddress  String  @map("city_address")
   streetAddress  String  @map("street_address")
   detailAddress  String  @map("detail_address")
@@ -89,7 +89,7 @@ model Menu {
   menuName      String     @map("menu_name")
   menuImageUrl  String  @map("menu_image_url")
   menuPrice  Int  @map("menu_price")
-  menuType  String  @map("menu_type")
+  menuType  Int  @map("menu_type")
   menuDescription   String    @map("menu_description")
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
@@ -135,7 +135,7 @@ model Order {
   UserId   Int   @unique  @map("user_id")
   RestaurantId   Int     @map("restaurant_id")
   userRequirment   String   @map("user_requirment")
-  orderStatus    String  @map("order_status")
+  orderStatus    OrderStatus @default(READY) @map("order_status")
   totalPrice   Int  @map("total_price")
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
@@ -146,6 +146,11 @@ model Order {
   Review   Review[]
 
   @@map("orders")
+}
+
+enum OrderStatus {
+  READY
+  DONE
 }
 
 

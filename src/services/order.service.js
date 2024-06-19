@@ -28,6 +28,4 @@ export class OrderService {
             updatedAt: order.updatedAt,
         }));
     };
-
-
 }
