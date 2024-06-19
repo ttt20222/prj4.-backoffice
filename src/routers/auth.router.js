@@ -5,13 +5,15 @@ import { HTTP_STATUS } from '../constants/http-status.constant.js';
 import { MESSAGES } from '../constants/message.constant.js';
 import { signUpValidator } from '../middlewares/validators/sign-up-validator.middleware.js';
 import { signInValidator } from '../middlewares/validators/sign-in-validator.middleware.js';
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import {
     ACCESS_TOKEN_EXPIRES_IN,
     HASH_SALT_ROUNDS,
 } from '../constants/auth.constant.js';
 import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
 
+const Prisma = new PrismaClient();
 const authRouter = express.Router();
 
 authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
