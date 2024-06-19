@@ -1,4 +1,6 @@
 import { MenusRepository } from "../repositories/menus.repository.js";
+import { HttpError } from "../errors/http.error.js";
+import { MESSAGES } from "../constants/message.constant.js";
 
 export class MenusService {
   menusRepository = new MenusRepository();
@@ -11,6 +13,16 @@ export class MenusService {
     menuDescription,
     menuImageUrl
   ) => {
+    // 이미 존재하는 메뉴 이름인지 체크
+    const existedMenuName = await this.menusRepository.findByMenuName(
+      restaurantId,
+      menuName
+    );
+    if (existedMenuName) {
+      throw new HttpError.BadRequest(MESSAGES.MENUS.COMMON.NAME_ALREADY_EXISTS);
+    }
+
+    //메뉴 생성
     const createdMenu = await this.menusRepository.create(
       restaurantId,
       menuName,
@@ -19,7 +31,14 @@ export class MenusService {
       menuDescription,
       menuImageUrl
     );
-    return createdMenu;
+    return {
+      menuId: createdMenu.menuId,
+      menuName: createdMenu.menuName,
+      menuPrice: createdMenu.menuPrice,
+      menuType: createdMenu.menuType,
+      menuDescription: createdMenu.menuDescription,
+      menuImageUrl: createdMenu.menuImageUrl,
+    };
   };
 
   readAll = async (restaurantId) => {
@@ -29,6 +48,12 @@ export class MenusService {
 
   readById = async (restaurantId, menuId) => {
     const menu = await this.menusRepository.readById(restaurantId, menuId);
+
+    //존재하는 메뉴인지 확인
+    if (!menu) {
+      throw new HttpError.NotFound(MESSAGES.MENUS.COMMON.NOT_FOUND);
+    }
+
     return menu;
   };
 
@@ -41,6 +66,16 @@ export class MenusService {
     menuDescription,
     menuImageUrl
   ) => {
+    const existedMenu = await this.menusRepository.readById(
+      restaurantId,
+      menuId
+    );
+
+    //존재하는 메뉴인지 확인
+    if (!existedMenu) {
+      throw new HttpError.NotFound(MESSAGES.MENUS.COMMON.NOT_FOUND);
+    }
+
     const updatedMenu = await this.menusRepository.update(
       restaurantId,
       menuId,
@@ -54,6 +89,16 @@ export class MenusService {
   };
 
   delete = async (menuId, restaurantId) => {
+    const existedMenu = await this.menusRepository.readById(
+      restaurantId,
+      menuId
+    );
+
+    //존재하는 메뉴인지 확인
+    if (!existedMenu) {
+      throw new HttpError.NotFound(MESSAGES.MENUS.COMMON.NOT_FOUND);
+    }
+
     const deletedMenu = await this.menusRepository.delete(menuId, restaurantId);
     return deletedMenu;
   };

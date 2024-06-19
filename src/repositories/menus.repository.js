@@ -18,13 +18,39 @@ export class MenusRepository {
         menuImageUrl,
         Restaurant: { connect: { restaurantId: +restaurantId } },
       },
+      select: {
+        menuId: true,
+        menuName: true,
+        menuPrice: true,
+        menuType: true,
+        menuDescription: true,
+        menuImageUrl: true,
+      },
     });
     return createdMenu;
+  };
+
+  findByMenuName = async (restaurantId, menuName) => {
+    const existedMenuName = await prisma.menu.findFirst({
+      where: { RestaurantId: +restaurantId, menuName },
+      select: {
+        menuId: true,
+        menuName: true,
+        menuPrice: true,
+        menuType: true,
+        menuDescription: true,
+        menuImageUrl: true,
+      },
+    });
+    return existedMenuName;
   };
 
   readAll = async (restaurantId) => {
     let menus = await prisma.menu.findMany({
       where: { RestaurantId: +restaurantId },
+      orderBy: {
+        menuName: "asc",
+      },
     });
 
     menus = menus.map((menu) => {

@@ -1,5 +1,6 @@
 import { HTTP_STATUS } from "../constants/http-status.constant.js";
 import { MenusService } from "../services/menus.service.js";
+import { MESSAGES } from "../constants/message.constant.js";
 
 export class MenusController {
   menusService = new MenusService();
@@ -22,7 +23,7 @@ export class MenusController {
 
       return res.status(HTTP_STATUS.CREATED).json({
         status: HTTP_STATUS.CREATED,
-        message: "메뉴 등록이 완료되었습니다.",
+        message: MESSAGES.MENUS.CREATE.SUCCEED,
         menu,
       });
     } catch (error) {
@@ -36,7 +37,13 @@ export class MenusController {
       const { restaurantId } = req.params;
       const menus = await this.menusService.readAll(restaurantId);
 
-      return res.status(HTTP_STATUS.OK).json({ status: HTTP_STATUS.OK, menus });
+      return res
+        .status(HTTP_STATUS.OK)
+        .json({
+          status: HTTP_STATUS.OK,
+          message: MESSAGES.MENUS.READ_LIST.SUCCEED,
+          menus,
+        });
     } catch (error) {
       next(error);
     }
@@ -49,7 +56,13 @@ export class MenusController {
 
       const menu = await this.menusService.readById(restaurantId, menuId);
 
-      return res.status(HTTP_STATUS.OK).json({ status: HTTP_STATUS.OK, menu });
+      return res
+        .status(HTTP_STATUS.OK)
+        .json({
+          status: HTTP_STATUS.OK,
+          message: MESSAGES.MENUS.READ_DETAIL.SUCCEED,
+          menu,
+        });
     } catch (error) {
       next(error);
     }
@@ -75,7 +88,7 @@ export class MenusController {
 
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: "메뉴수정이 완료되었습니다.",
+        message: MESSAGES.MENUS.UPDATE.SUCCEED,
         updatedMenu,
       });
     } catch (error) {
@@ -92,7 +105,7 @@ export class MenusController {
 
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: "메뉴 삭제가 완료되었습니다.",
+        message: MESSAGES.MENUS.DELETE.SUCCEED,
       });
     } catch (error) {
       next(error);
