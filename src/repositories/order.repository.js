@@ -1,14 +1,14 @@
 import { prisma } from "../utils/prisma/index.js";
-import { Prisma } from "@prisma/client";
 
 export class OrderRepository {
+
     createOrder = async (userRequirment) => {
         const findCart = await prisma.cart.findFirst({
-            where: { UserId: 1 }
+            where: { userId: 1 }
         });
 
         const findCartDetail = await prisma.cartDetail.findMany({
-            where: { CartId: findCart.cartId },
+            where: { cartId: findCart.cartId },
             include: {
                 Menu: {
                     select: {
@@ -20,9 +20,9 @@ export class OrderRepository {
 
         return await prisma.$transaction(async (tx) => {
             await tx.Cart.update({
-                where: { UserId: 1 },
+                where: { userId: 1 },
                 data: {
-                    RestaurantId: null,
+                    restaurantId: null,
                 },
             });
 
@@ -36,8 +36,8 @@ export class OrderRepository {
 
             const createOrder = await tx.Order.create({
                 data: {
-                    UserId: 1,
-                    RestaurantId: findCart.RestaurantId,
+                    userId: 1,
+                    restaurantId: findCart.restaurantId,
                     userRequirment: userRequirment,
                     totalPrice: totalPrice,
                 },
@@ -46,8 +46,8 @@ export class OrderRepository {
             const createOrderDetailsPromises = findCartDetail.map(cartDetail => {
                 return tx.OrderDetail.create({
                     data: {
-                        OrderId: createOrder.orderId,
-                        MenuId: cartDetail.MenuId,
+                        orderId: createOrder.orderId,
+                        menuId: cartDetail.menuId,
                         menuPrice: cartDetail.Menu.menuPrice,
                         menuCount: cartDetail.menuCount,
                     },
@@ -107,5 +107,5 @@ export class OrderRepository {
         });
 
         return order;
-    }
+    };
 }
