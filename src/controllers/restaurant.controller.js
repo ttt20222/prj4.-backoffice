@@ -225,4 +225,4 @@ export class RestaurantController {
       next(error);
     }
   }
-}
+} 
