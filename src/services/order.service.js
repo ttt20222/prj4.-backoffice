@@ -10,4 +10,24 @@ export class OrderService {
 
         return createOrder;
     };
+
+    readOrders = async () => {
+        const orders = await orderRepository.readOrders();
+
+        return orders.map((order) => ({
+            orderId : order.orderId,
+            userId : order.userId,
+            restaurantId : order.restaurantId,
+            menuName: order.menuName,
+            menuCount: order.menuCount,
+            menuPrice: order.menuPrice,
+            totalPrice: order.totalPrice,
+            userRequirment : order.userRequirment,
+            orderStatus : order.orderStatus,
+            createdAt: order.createdAt,
+            updatedAt: order.updatedAt,
+        }));
+    };
+
+
 }

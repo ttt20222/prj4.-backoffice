@@ -26,8 +26,8 @@ export class OrderRepository {
                 },
             });
 
-            const totalPriceResult = await tx.$queryRaw`
-                SELECT SUM(b.menu_price * a.menu_count) as totalPrice
+            const totalPriceResult = await tx.$queryRaw
+            `SELECT SUM(b.menu_price * a.menu_count) as totalPrice
                 FROM cart_details a
                 JOIN menus b ON a.menu_id = b.menu_id
                 WHERE a.cart_id = ${findCart.cartId}`;
@@ -67,5 +67,27 @@ export class OrderRepository {
 
             return createOrder;
         });
+    };
+
+    readOrders = async () => {
+        const orders = await prisma.$queryRaw
+        `select a.order_id as orderId
+        , a.user_id as userId
+        , a.restaurant_id as restaurantId
+        ,c.menu_name as menuName
+        , b.menu_count as menuCount 
+        ,b.menu_price as menuPrice 
+        ,a.total_price as totalPrice
+        , a.user_requirment as userRequirment
+        , a.order_status as orderStatus
+        , a.created_at as createdAt
+        ,a.updated_at as updatedAt
+            from orders a join order_details b
+            on a.order_id  = b.order_id
+            join menus c
+            on b.menu_id = c.menu_id
+            where a.user_id = 1;`
+
+        return orders;
     }
 }
