@@ -26,8 +26,9 @@ export class MenusController {
         message: MESSAGES.MENUS.CREATE.SUCCEED,
         menu,
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      console.log(err);
+      next(err);
     }
   };
 
@@ -37,15 +38,13 @@ export class MenusController {
       const { restaurantId } = req.params;
       const menus = await this.menusService.readAll(restaurantId);
 
-      return res
-        .status(HTTP_STATUS.OK)
-        .json({
-          status: HTTP_STATUS.OK,
-          message: MESSAGES.MENUS.READ_LIST.SUCCEED,
-          menus,
-        });
-    } catch (error) {
-      next(error);
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: MESSAGES.MENUS.READ_LIST.SUCCEED,
+        menus,
+      });
+    } catch (err) {
+      next(err);
     }
   };
 
@@ -56,15 +55,13 @@ export class MenusController {
 
       const menu = await this.menusService.readById(restaurantId, menuId);
 
-      return res
-        .status(HTTP_STATUS.OK)
-        .json({
-          status: HTTP_STATUS.OK,
-          message: MESSAGES.MENUS.READ_DETAIL.SUCCEED,
-          menu,
-        });
-    } catch (error) {
-      next(error);
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: MESSAGES.MENUS.READ_DETAIL.SUCCEED,
+        menu,
+      });
+    } catch (err) {
+      next(err);
     }
   };
 
@@ -91,8 +88,8 @@ export class MenusController {
         message: MESSAGES.MENUS.UPDATE.SUCCEED,
         updatedMenu,
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   };
 
@@ -107,8 +104,8 @@ export class MenusController {
         status: HTTP_STATUS.OK,
         message: MESSAGES.MENUS.DELETE.SUCCEED,
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   };
 }

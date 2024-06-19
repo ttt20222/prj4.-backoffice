@@ -19,6 +19,7 @@ export class MenusService {
       menuName
     );
     if (existedMenuName) {
+      console.log("메뉴 이름이 이미 존재합니다:", menuName);
       throw new HttpError.BadRequest(MESSAGES.MENUS.COMMON.NAME_ALREADY_EXISTS);
     }
 
@@ -74,6 +75,15 @@ export class MenusService {
     //존재하는 메뉴인지 확인
     if (!existedMenu) {
       throw new HttpError.NotFound(MESSAGES.MENUS.COMMON.NOT_FOUND);
+    }
+
+    // 이미 존재하는 메뉴 이름인지 체크
+    const existedMenuName = await this.menusRepository.findByMenuName(
+      restaurantId,
+      menuName
+    );
+    if (existedMenuName) {
+      throw new HttpError.BadRequest(MESSAGES.MENUS.COMMON.NAME_ALREADY_EXISTS);
     }
 
     const updatedMenu = await this.menusRepository.update(

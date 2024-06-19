@@ -15,7 +15,7 @@ export const updateMenuValidator = async (req, res, next) => {
   try {
     await schema.validateAsync(req.body);
     next();
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };

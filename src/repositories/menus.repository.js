@@ -71,6 +71,10 @@ export class MenusRepository {
       where: { RestaurantId: +restaurantId, menuId: +menuId },
     });
 
+    if (!menu) {
+      return null; // 존재하지 않는 경우 null을 반환하도록 수정
+    }
+
     menu = {
       menuId: menu.menuId,
       menuName: menu.menuName,
