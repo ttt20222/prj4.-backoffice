@@ -126,7 +126,6 @@ export class RestaurantController {
       next(error);
     }
   }
-    
 
   async updateRestaurant(req, res, next) {
     try {
@@ -137,13 +136,13 @@ export class RestaurantController {
           message: '입력값이 올바르지 않습니다.',
           errors: errors.array().map(err => {
             switch (err.param) {
+              case 'restaurantId':
+                return { msg: '업장 ID 형식이 올바르지 않습니다.' };
               case 'restaurantName':
                 return { msg: '업장 이름 형식이 올바르지 않습니다.' };
               case 'restaurantPhoneNumber':
                 return { msg: '전화번호 형식이 올바르지 않습니다.' };
               case 'restaurantCity':
-                return { msg: '주소 형식이 올바르지 않습니다.' };
-              case 'restaurantAddress':
                 return { msg: '주소 형식이 올바르지 않습니다.' };
               case 'restaurantStreetAddress':
                 return { msg: '주소 형식이 올바르지 않습니다.' };
@@ -160,21 +159,29 @@ export class RestaurantController {
         });
       }
   
-      const restaurantId = req.params.restaurantId;
-      const { restaurantName, restaurantPhoneNumber, restaurantCity, restaurantAddress, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea } = req.body;
-      
+      const restaurantId = parseInt(req.params.restaurantId); 
+  
+      if (isNaN(restaurantId)) {
+        return res.status(400).json({ status: 400, errorMessage: '유효한 업장 ID를 입력해주세요.' });
+      }
+  
+      const { restaurantName, restaurantPhoneNumber, restaurantCity, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea } = req.body;
+  
       const updatedRestaurant = await restaurantService.updateRestaurant(
         restaurantId,
         restaurantName,
         restaurantPhoneNumber,
         restaurantCity,
-        restaurantAddress,
         restaurantStreetAddress,
         restaurantDetailAddress,
         mainFoodType,
         deliveryAvailableArea
       );
-      
+  
+      if (!updatedRestaurant) {
+        return res.status(404).json({ status: 404, errorMessage: '업장을 찾을 수 없습니다.' });
+      }
+  
       res.status(200).json({
         status: 200,
         message: '업장 수정 성공',
@@ -194,18 +201,20 @@ export class RestaurantController {
     } catch (error) {
       next(error);
     }
-  }  
+  }
 
   async deleteRestaurant(req, res, next) {
     try {
-      const restaurantId = req.params.restaurantId;
+      const restaurantId = parseInt(req.params.restaurantId);
+  
+      if (isNaN(restaurantId)) {
+        return res.status(400).json({ status: 400, errorMessage: '유효한 업장 ID를 입력해주세요.' });
+      }
+  
       const deleted = await restaurantService.deleteRestaurant(restaurantId);
       
       if (deleted) {
-        res.status(200).json({
-          status: 200,
-          message: '업장 삭제 성공'
-        });
+        res.status(200).json({ status: 200, message: '업장 삭제 성공' });
       } else {
         res.status(404).json({
           status: 404,

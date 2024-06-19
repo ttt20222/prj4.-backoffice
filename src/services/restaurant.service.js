@@ -24,7 +24,8 @@ class RestaurantService {
   }
 
   async deleteRestaurant(restaurantId) {
-    await restaurantRepository.deleteRestaurant(restaurantId);
+    const deleted = await restaurantRepository.deleteRestaurant(restaurantId);
+    return deleted;
   }
 }
 
