@@ -15,12 +15,8 @@ export class OrderRepository {
                         menuPrice: true,
                     },
                 },
-            },
+            }
         });
-
-        if (!findCartDetail) {
-            throw new Error('Cart not found');
-        }
 
         return await prisma.$transaction(async (tx) => {
             await tx.Cart.update({
@@ -43,7 +39,7 @@ export class OrderRepository {
                     UserId: 1,
                     RestaurantId: findCart.RestaurantId,
                     userRequirment: userRequirment,
-                    orderStatus: '음식 준비 중',
+                    orderStatus: '음식 준비중',
                     totalPrice: totalPrice,
                 },
             });
