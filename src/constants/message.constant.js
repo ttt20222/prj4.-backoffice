@@ -9,15 +9,31 @@ export const MESSAGES = {
         DUPLICATED: '이미 가입 된 사용자입니다.',
       },
       PASSWORD: {
-        REQURIED: '비밀번호를 입력해 주세요.',
+        REQUIRED: '비밀번호를 입력해 주세요.',
         MIN_LENGTH: `비밀번호는 ${MIN_PASSWORD_LENGTH}자리 이상이어야 합니다.`,
+        NOT_MATCH: '일치하지 않습니다.'
       },
       PASSWORD_CONFIRM: {
         REQURIED: '비밀번호 확인을 입력해 주세요.',
         NOT_MACHTED_WITH_PASSWORD: '입력 한 두 비밀번호가 일치하지 않습니다.',
       },
       NAME: {
-        REQURIED: '이름을 입력해 주세요.',
+        REQUIRED: '이름을 입력해 주세요.',
+      },
+      NICKNAME: {
+        REQUIRED: '별명을 입력해 주세요.',
+      },
+      PHONE_NUMBER: {
+        REQUIRED: '핸드폰 번호를 입력해 주세요.',
+      },
+      CITY_ADDRESS: {
+        REQUIRED: '시/군/구를 입력해 주세요.',
+      },
+      STREET_ADDRESS: {
+        REQUIRED: '도로명주소를 입력해 주세요.',
+      },
+      DETAIL_ADDRESS: {
+        REQUIRED: '자세한 주소를 입력해 주세요.',
       },
       UNAUTHORIZED: '인증 정보가 유효하지 않습니다.',
       JWT: {
