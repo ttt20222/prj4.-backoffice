@@ -4,7 +4,7 @@ export class OrderRepository {
 
     createOrder = async (userRequirment) => {
         const findCart = await prisma.cart.findFirst({
-            where: { userId: 1 }
+            where: { userId: 4 }
         });
 
         const findCartDetail = await prisma.cartDetail.findMany({
@@ -20,7 +20,7 @@ export class OrderRepository {
 
         return await prisma.$transaction(async (tx) => {
             await tx.Cart.update({
-                where: { userId: 1 },
+                where: { userId: 4 },
                 data: {
                     restaurantId: null,
                 },
@@ -36,7 +36,7 @@ export class OrderRepository {
 
             const createOrder = await tx.Order.create({
                 data: {
-                    userId: 1,
+                    userId: 4,
                     restaurantId: findCart.restaurantId,
                     userRequirment: userRequirment,
                     totalPrice: totalPrice,
@@ -85,7 +85,7 @@ export class OrderRepository {
         on a.order_id  = b.order_id
         join menus c
         on b.menu_id = c.menu_id
-        where a.user_id = 1;`     //userId 부분 변경 필요
+        where a.user_id = 4;`     //userId 부분 변경 필요
 
         return orders;
     };

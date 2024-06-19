@@ -6,7 +6,7 @@ export class CartRepository {
         const [createCartDetail, updateCart] = await prisma.$transaction(async (tx) => {
 
             const updateCart = await tx.Cart.update({
-                where: { userId: 1 },
+                where: { userId: 4 },
                 data: { restaurantId: restaurantId },
             });
 
@@ -26,7 +26,7 @@ export class CartRepository {
 
     readCarts = async () => {
         const findCartId = await prisma.Cart.findFirst({
-            where: { userId : 1},
+            where: { userId : 4},
             select : {cartId: true}
         });
 
@@ -49,7 +49,7 @@ export class CartRepository {
 
     updateCartDetail = async (menuCount, menuId) => {
         const findCartId = await prisma.Cart.findFirst({
-            where: { userId : 1},
+            where: { userId : 4},
             select : {cartId: true}
         });
 
@@ -67,7 +67,7 @@ export class CartRepository {
 
     deleteCartMenu = async (menuId) => {
         const findCartId = await prisma.Cart.findFirst({
-            where: { userId : 1},
+            where: { userId : 4},
             select : {cartId: true}
         });
 

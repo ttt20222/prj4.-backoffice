@@ -66,11 +66,12 @@ model Restaurant {
   restaurantId      Int     @id @default(autoincrement()) @map("restaurant_id")
   ownerId     Int     @unique   @map("owner_id")
   name      String     @map("name")
+  phoneNumber  String  @map("phone_number")
   cityAddress  String  @map("city_address")
   streetAddress  String  @map("street_address")
   detailAddress  String  @map("detail_address")
   mainMenuType   String    @map("main_menu_type")
-  deliverAvailableArea    String     @map("delivery_available_area")
+  deliveryAvailableArea    String     @map("delivery_available_area")
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
 
