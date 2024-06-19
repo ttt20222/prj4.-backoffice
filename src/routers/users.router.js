@@ -5,7 +5,9 @@ import { MESSAGES } from '../constants/message.constant.js';
 
 const usersRouter = express.Router();
 
-usersRouter.get('/me', requireAccessToken, (req, res, next) => {
+// "/" 엔드포인트에 대한 GET 요청을 처리합니다.
+// 이 요청은 requireAccessToken 미들웨어를 통해 인증됩니다.
+usersRouter.get('/', requireAccessToken, (req, res, next) => {
   try {
     const data = req.user;
 
