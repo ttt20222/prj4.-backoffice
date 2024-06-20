@@ -28,7 +28,7 @@ export class CartRepository {
     //카트 찾기
     readCarts = async () => {
         const findCartId = await prisma.Cart.findFirst({
-            where: { userId : 4},
+            where: { userId : 5},
             select : {cartId: true}
         });
 
@@ -36,7 +36,7 @@ export class CartRepository {
             where: { cartId : findCartId.cartId },
             select: {
                 menuId : true,
-                menu : {
+                Menu : {
                     select : {
                         menuName : true,
                         menuPrice : true,

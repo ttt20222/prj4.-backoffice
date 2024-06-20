@@ -15,6 +15,10 @@ export class CartService {
     readCarts = async() => {
         const readCarts = await cartRepository.readCarts();
 
+        if(readCarts.length === 0) {
+            throw new HttpError.BadRequest('장바구니에 메뉴가 존재하지 않습니다.');
+        }
+
         const returnCarts = readCarts.map((item) => ({
             menuId: item.MenuId,
             menuName: item.Menu.menuName,
