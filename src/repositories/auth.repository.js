@@ -33,15 +33,15 @@ export class AuthRepository {
 
   /** refreshToken Upsert 하기 **/
   upsertToken = async (userId, hashedRefreshToken) => {
-    const reToken = await prisma.refreshToken.upsert({
+    const reToken = await prisma.token.upsert({
       where: {
-        userId,
+        userId: +userId,
       },
       update: {
         refreshToken: hashedRefreshToken,
       },
       create: {
-        userId,
+        userId: +userId,
         refreshToken: hashedRefreshToken,
       },
     });
