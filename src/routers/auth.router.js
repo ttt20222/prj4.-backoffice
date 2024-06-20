@@ -22,6 +22,6 @@ authRouter.post("/verify-email", authController.verifyEmail);
 authRouter.post("/token", requireRefreshToken, authController.reToken);
 
 /** 로그아웃 **/
-authRouter.post("/sign-out", authController.signOut);
+authRouter.post("/sign-out", requireRefreshToken, authController.signOut);
 
 export { authRouter };

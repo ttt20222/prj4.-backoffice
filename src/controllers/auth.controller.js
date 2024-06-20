@@ -2,6 +2,7 @@ import { MESSAGES } from "../constants/message.constant.js";
 import { HTTP_STATUS } from "../constants/http-status.constant.js";
 import { AuthService } from "../services/auth.service.js";
 import { HttpError } from "../errors/http.error.js";
+import { prisma } from "../utils/prisma/index.js";
 
 export class AuthController {
   authService = new AuthService();
@@ -117,8 +118,8 @@ export class AuthController {
         where: { userId: +userId },
       });
 
-      return res.status(HttpError.OK).json({
-        status: HttpError.OK,
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
         message: "로그아웃에 성공했습니다.",
         data: {
           id: userId,
