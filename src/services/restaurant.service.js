@@ -4,6 +4,7 @@ import { RestaurantRepository } from '../repositories/restaurant.repository.js';
 const restaurantRepository = new RestaurantRepository(); // RestaurantRepository 인스턴스 생성
 export class RestaurantService {
 
+    //레스토랑 주문내역 조회
     readOrder = async (userId, role) => {
         //사장님만 자기 업장의 주문 상태를 볼 수 있음.
         if(role != 'OWNER'){
