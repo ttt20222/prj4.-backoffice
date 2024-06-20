@@ -33,17 +33,10 @@ export class AuthService {
     detailAddress
   ) => {
     // 1. 이메일 중복여부 확인
-    const existedUser = await this.authRepository.findUserByEmail({
-      where: {
-        email,
-      },
-    });
+    const existedUser = await this.authRepository.findUserByEmail(email);
     // 1-1. 이메일이 중복된 경우
     if (existedUser) {
-      return res.status(HTTP_STATUS.CONFLICT).json({
-        status: HTTP_STATUS.CONFLICT,
-        message: MESSAGES.AUTH.COMMON.EMAIL.DUPLICATED,
-      });
+      throw new HttpError.Conflict(MESSAGES.AUTH.COMMON.EMAIL.DUPLICATED);
     }
     // 2. 비밀번호 길이 검증
     if (password.length < MIN_PASSWORD_LENGTH) {
@@ -134,8 +127,8 @@ export class AuthService {
     }
 
     // 4. 페이로드
-    const payload = { id: user.id };
-    const data = await generateAuthTokens(payload);
+    const payload = { id: user.userId };
+    const data = await this.generateAuthTokens(payload);
 
     // 4. 결과물을 controller에 전달
     return data;

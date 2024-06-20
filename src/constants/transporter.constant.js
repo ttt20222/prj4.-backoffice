@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { MAILPASS } from "./env.constant.js";
+import { MAILPASS } from "../constants/env.constant.js";
 
 // nodemailer를 사용해 SMTP 전송 객체를 생성
 export const transporter = nodemailer.createTransport({
