@@ -45,8 +45,8 @@ export class RestaurantController {
   // 업장 생성 메서드
   async createRestaurant(req, res, next) {
     try {
-        //const { userId , role } = req.user;
-        //const ownerId = userId;
+        const { userId , role } = req.user;
+        const ownerId = userId;
       const {
         restaurantName,
         restaurantPhoneNumber,
@@ -58,7 +58,7 @@ export class RestaurantController {
       } = req.body; // 요청 본문에서 데이터 가져오기
   
       const newRestaurant = await restaurantService.createRestaurant(
-        ownerId, restaurantName, restaurantPhoneNumber, restaurantCity, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea
+        ownerId, role, restaurantName, restaurantPhoneNumber, restaurantCity, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea
       ); // 업장 생성
   
       // 생성된 업장 정보 반환
@@ -87,7 +87,7 @@ export class RestaurantController {
   // 업장 수정 메서드
   async updateRestaurant(req, res, next) {
     try {
-        //const { userId , role } = req.user;
+        const { userId } = req.user;
       const restaurantId = parseInt(req.params.restaurantId); // 요청 파라미터에서 업장 ID 가져오기
   
       const { restaurantName, restaurantPhoneNumber, restaurantCity, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea } = req.body; // 요청 본문에서 데이터 가져오기
@@ -99,6 +99,7 @@ export class RestaurantController {
       };
   
       const updatedRestaurant = await restaurantService.updateRestaurant(
+        userId,
         restaurantId,
         restaurantName,
         restaurantPhoneNumber,
@@ -138,10 +139,10 @@ export class RestaurantController {
   // 업장 삭제 메서드
   async deleteRestaurant(req, res, next) {
     try {
-        //const { userId , role } = req.user;
+        const { userId  } = req.user;
       const restaurantId = parseInt(req.params.restaurantId); // 요청 파라미터에서 업장 ID 가져오기
   
-      const deleted = await restaurantService.deleteRestaurant(restaurantId); // 업장 삭제
+      const deleted = await restaurantService.deleteRestaurant(userId, restaurantId); // 업장 삭제
       
       if (deleted) {
         res.status(HTTP_STATUS.OK).json({ status: HTTP_STATUS.OK, message: '업장 삭제 성공' }); // 삭제 성공
@@ -159,11 +160,10 @@ export class RestaurantController {
   //레스토랑의 주문내역 조회
     readOrder = async (req, res, next) => {
         try {
-        //const { userId , role } = req.user;
-        const userId = 9;
-        const role = 'USER';   //테스트 변경필요함
+        const { userId , role } = req.user;
+        const ownerId = userId;
 
-        const order = await restaurantService.readOrder(userId, role);
+        const order = await restaurantService.readOrder(ownerId, role);
 
         return res.status(HTTP_STATUS.OK).json({
             status: HTTP_STATUS.OK,

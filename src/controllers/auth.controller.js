@@ -1,6 +1,7 @@
 import { MESSAGES } from "../constants/message.constant.js";
 import { HTTP_STATUS } from "../constants/http-status.constant.js";
 import { AuthService } from "../services/auth.service.js";
+import { HttpError } from "../errors/http.error.js";
 
 export class AuthController {
   authService = new AuthService();
@@ -104,6 +105,27 @@ export class AuthController {
       });
     } catch (err) {
       next(err);
+    }
+  };
+
+    //로그아웃 /auth/sign-out
+  signOut = async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+
+      await prisma.Token.delete({
+        where: { userId: +userId },
+      });
+
+      return res.status(HttpError.OK).json({
+        status: HttpError.OK,
+        message: "로그아웃에 성공했습니다.",
+        data: {
+          id: userId,
+        },
+      });
+    } catch (error) {
+      next(error);
     }
   };
 }
