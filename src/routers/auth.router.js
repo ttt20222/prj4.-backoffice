@@ -1,91 +1,24 @@
-import express from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { HTTP_STATUS } from '../constants/http-status.constant.js';
-import { MESSAGES } from '../constants/message.constant.js';
-import { signUpValidator } from '../middlewares/validators/sign-up-validator.middleware.js';
-import { signInValidator } from '../middlewares/validators/sign-in-validator.middleware.js';
-// import { prisma } from '../utils/prisma.util.js';
-import { Prisma } from '@prisma/client';
-import {
-    ACCESS_TOKEN_EXPIRES_IN,
-    HASH_SALT_ROUNDS,
-} from '../constants/auth.constant.js';
-import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
+import express from "express";
+import { signUpValidator } from "../middlewares/validators/sign-up-validator.middleware.js";
+import { signInValidator } from "../middlewares/validators/sign-in-validator.middleware.js";
+import { PrismaClient } from "@prisma/client";
+import { requireRefreshToken } from "../middlewares/require-refresh-token.middleware.js";
+import { AuthController } from "../controllers/auth.controller.js";
 
 const authRouter = express.Router();
 
-authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
-    try {
-        const { email, password, name, nickname, phoneNumber, cityAddress, streetAddress, detailAddress } = req.body;
+const authController = new AuthController();
 
-        const existedUser = await Prisma.user.findUnique({ where: { email } });
+/** 회원 가입 **/
+authRouter.post("/sign-up", signUpValidator, authController.signUp);
 
-        // 이메일이 중복된 경우
-        if (existedUser) {
-            return res.status(HTTP_STATUS.CONFLICT).json({
-                status: HTTP_STATUS.CONFLICT,
-                message: MESSAGES.AUTH.COMMON.EMAIL.DUPLICATED,
-            });
-        }
+/** 로그인(+refreshToken!!추가수정해야함) **/
+authRouter.post("/sign-in", signInValidator, authController.signIn);
 
-        const hashedPassword = bcrypt.hashSync(password, HASH_SALT_ROUNDS);
+/** 이메일 인증 **/
+authRouter.post("/verify-email", authController.verifyEmail);
 
-        const data = await Prisma.user.create({
-            data: {
-                email,
-                password: hashedPassword,
-                name,
-                nickname,
-                phoneNumber,
-                cityAddress,
-                streetAddress,
-                detailAddress,
-            },
-        });
-
-        data.password = undefined;
-
-        return res.status(HTTP_STATUS.CREATED).json({
-            status: HTTP_STATUS.CREATED,
-            message: MESSAGES.AUTH.SIGN_UP.SUCCEED,
-            data,
-        });
-    } catch (error) {
-        next(error);
-    }
-});
-
-authRouter.post('/sign-in', signInValidator, async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
-
-        const user = await Prisma.user.findUnique({ where: { email } });
-
-        const isPasswordMatched =
-            user && bcrypt.compareSync(password, user.password);
-
-        if (!isPasswordMatched) {
-            return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-                status: HTTP_STATUS.UNAUTHORIZED,
-                message: MESSAGES.AUTH.COMMON.UNAUTHORIZED,
-            });
-        }
-
-        const payload = { id: user.id };
-
-        const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
-            expiresIn: ACCESS_TOKEN_EXPIRES_IN,
-        });
-
-        return res.status(HTTP_STATUS.OK).json({
-            status: HTTP_STATUS.OK,
-            message: MESSAGES.AUTH.SIGN_IN.SUCCEED,
-            data: { accessToken },
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+/** 토큰 재발급 **/
+authRouter.post("/token", requireRefreshToken, authController.reToken);
 
 export { authRouter };
