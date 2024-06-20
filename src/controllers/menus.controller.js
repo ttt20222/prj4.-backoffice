@@ -9,8 +9,9 @@ export class MenusController {
       //path parameters에서 restaurantId 추출
       const { restaurantId } = req.params;
       //req.body에서 데이터 추출
-      const { menuName, menuPrice, menuType, menuDescription, menuImageUrl } =
-        req.body;
+      const { menuName, menuPrice, menuType, menuDescription } = req.body;
+      //업로드된 파일의 S3 URL을 menuImageUrl 변수에 할당
+      const menuImageUrl = req.files ? req.files[0].location : "";
 
       const menu = await this.menusService.create(
         restaurantId,
@@ -70,8 +71,10 @@ export class MenusController {
       //path parameters에서 restaurantId 추출
       const { restaurantId, menuId } = req.params;
       //req.body에서 데이터 추출
-      const { menuName, menuPrice, menuType, menuDescription, menuImageUrl } =
-        req.body;
+      const { menuName, menuPrice, menuType, menuDescription } = req.body;
+
+      //업로드된 파일의 S3 URL을 menuImageUrl 변수에 할당
+      const menuImageUrl = req.files[0].location;
 
       const updatedMenu = await this.menusService.update(
         restaurantId,
