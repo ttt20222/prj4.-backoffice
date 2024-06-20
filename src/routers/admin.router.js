@@ -9,6 +9,6 @@ const adminController = new AdminController();
 adminRouter.get("/users", adminController.readAll);
 
 //역할 변경
-adminRouter.put("/users/role", adminValidator, adminController.update);
+adminRouter.put("/users/roles", adminValidator, adminController.update);
 
 export { adminRouter };

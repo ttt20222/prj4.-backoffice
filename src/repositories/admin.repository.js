@@ -59,6 +59,10 @@ export class AdminRepository {
         role,
       },
     });
-    return updatedRole;
+    return {
+      userId: updatedRole.userId,
+      name: updatedRole.name,
+      role: updatedRole.role,
+    };
   };
 }
