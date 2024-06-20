@@ -56,10 +56,17 @@ export class CartRepository {
             select : {cartId: true}
         });
 
+        const findCartDetailId = await prisma.CartDetail.findFirst({
+            where: {
+                cartId : findCartId.cartId,
+                menuId : +menuId,
+            },
+            select: {cartDetailId: true},
+        });
+
         const updateCartMenuCount = await prisma.CartDetail.update({
             where: {
-                cartId: findCartId.cartId,
-                menuId : +menuId},
+                cartDetailId : findCartDetailId.cartDetailId,},
             data: {
                 menuCount : menuCount,
             },
@@ -71,14 +78,22 @@ export class CartRepository {
     //카트에 메뉴 삭제
     deleteCartMenu = async (userId, menuId) => {
         const findCartId = await prisma.Cart.findFirst({
-            where: { userId : userId},
+
+            where: { userId : +userId},
             select : {cartId: true}
+        });
+
+        const findCartDetailId = await prisma.CartDetail.findFirst({
+            where: {
+                cartId : findCartId.cartId,
+                menuId : +menuId,
+            },
+            select: {cartDetailId: true},
         });
 
         const deleteCartMenu = await prisma.CartDetail.delete({
             where: {
-                cartId : findCartId.cartId,
-                menuId : +menuId,
+                cartDetailId : findCartDetailId.cartDetailId,
             },
         });
 

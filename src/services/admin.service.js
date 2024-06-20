@@ -5,13 +5,21 @@ import { MESSAGES } from "../constants/message.constant.js";
 export class AdminService {
   adminRepository = new AdminRepository();
 
-  readAll = async () => {
+  readAll = async (adminRole) => {
+    //관리자만 유저 목록을 볼 수 있음.
+    if (adminRole != "ADMIN") {
+      throw new HttpError.Forbidden("관리자가 아닙니다.");
+    }
     const users = await this.adminRepository.readAll();
 
     return users;
   };
 
-  update = async (userId, name, role) => {
+  update = async (userId, name, role, adminRole) => {
+    //관리자만 유저 목록을 볼 수 있음.
+    if (adminRole != "ADMIN") {
+      throw new HttpError.Forbidden("관리자가 아닙니다.");
+    }
     //존재하는 유저인지 확인
     const existedUser = await this.adminRepository.readById(userId, name);
 

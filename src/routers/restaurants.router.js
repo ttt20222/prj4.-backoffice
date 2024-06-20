@@ -21,6 +21,7 @@ router.get('/orders', requireAccessToken, restaurantController.readOrder);
 router.get('/:restaurantId', restaurantController.getRestaurantById);
 
 // 업장 수정 라우트
+
 router.patch('/:restaurantId', requireAccessToken, updateRestaurantValidator, restaurantController.updateRestaurant);
 
 // 업장 삭제 라우트

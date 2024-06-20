@@ -4,8 +4,6 @@ import { AuthService } from "../services/auth.service.js";
 import { HttpError } from "../errors/http.error.js";
 import { prisma } from "../utils/prisma/index.js";
 
-
-
 export class AuthController {
   authService = new AuthService();
 

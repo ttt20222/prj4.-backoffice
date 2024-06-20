@@ -92,11 +92,11 @@ export class RestaurantController {
   
       const { restaurantName, restaurantPhoneNumber, restaurantCity, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea } = req.body; // 요청 본문에서 데이터 가져오기
 
-      if (!restaurantName && !restaurantPhoneNumber && !restaurantCity && !restaurantAddress && !restaurantStreetAddress && !restaurantDetailAddress && !mainFoodType && deliveryAvailableArea){
-        return res.status(HttpError.BadRequest).json({
-          message: '수정 할 정보를 입력해 주세요.',
-        });
-      };
+      // if (!restaurantName && !restaurantPhoneNumber && !restaurantCity  && !restaurantStreetAddress && !restaurantDetailAddress && !mainFoodType && deliveryAvailableArea){
+      //   return res.status(HttpError.BadRequest).json({
+      //     message: '수정 할 정보를 입력해 주세요.',
+      //   });
+      // };
   
       const updatedRestaurant = await restaurantService.updateRestaurant(
         userId,
