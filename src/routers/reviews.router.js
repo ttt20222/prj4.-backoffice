@@ -14,8 +14,8 @@ const reviewsController = new ReviewsController();
 reviewsRouter.post(
   "/:restaurantId/reviews",
   requireAccessToken,
-  createReviewValidator,
   toS3.array("files", 5),
+  createReviewValidator,
   reviewsController.createReview
 );
 
@@ -26,6 +26,7 @@ reviewsRouter.get("/:restaurantId/reviews", reviewsController.getReviews);
 reviewsRouter.patch(
   "/:restaurantId/reviews/:reviewId",
   requireAccessToken,
+  toS3.array("files", 5),
   updateReviewValidator,
   reviewsController.updateReview
 );
