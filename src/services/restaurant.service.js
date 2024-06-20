@@ -38,7 +38,7 @@ export class RestaurantService {
     };
 
     // 업장 생성 서비스 메소드
-    async createRestaurant(ownerId, restaurantName, restaurantPhoneNumber, restaurantCity, restaurantAddress, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea) {
+    async createRestaurant(ownerId, role, restaurantName, restaurantPhoneNumber, restaurantCity, restaurantAddress, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea) {
         
         //사장님만 업장 생성 가능
         if(role != 'OWNER'){
@@ -53,7 +53,7 @@ export class RestaurantService {
     };
 
     // 업장 수정 서비스 메소드
-    async updateRestaurant(restaurantId, restaurantName, restaurantPhoneNumber, restaurantCity, restaurantAddress, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea) {
+    async updateRestaurant(userId, restaurantId, restaurantName, restaurantPhoneNumber, restaurantCity, restaurantAddress, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea) {
 
         const checkRestaurant = await restaurantRepository.getRestaurantById(restaurantId);
         //자기 업장만 수정 가능
@@ -69,7 +69,7 @@ export class RestaurantService {
     };
 
     // 업장 삭제 서비스 메소드
-    async deleteRestaurant(restaurantId) {
+    async deleteRestaurant(userId, restaurantId) {
 
         const checkRestaurant = await restaurantRepository.getRestaurantById(restaurantId);
         

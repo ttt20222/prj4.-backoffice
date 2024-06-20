@@ -3,9 +3,9 @@ import { prisma } from "../utils/prisma/index.js";
 export class OrderRepository {
 
     //주문 생성  (카트 테이블 레스토랑 아이디 비우기 -> 주문테이블 생성 -> 주문디테일 테이블 생성 -> 카드디테일테이블 비우기)
-    createOrder = async (userRequirment) => {
+    createOrder = async (userId, userRequirment) => {
         const findCart = await prisma.cart.findFirst({
-            where: { userId: 4 }
+            where: { userId: userId }
         });
 
         const findCartDetail = await prisma.cartDetail.findMany({
@@ -21,7 +21,7 @@ export class OrderRepository {
 
         return await prisma.$transaction(async (tx) => {
             await tx.Cart.update({
-                where: { userId: 4 },
+                where: { userId: userId },
                 data: {
                     restaurantId: null,
                 },
@@ -37,7 +37,7 @@ export class OrderRepository {
 
             const createOrder = await tx.Order.create({
                 data: {
-                    userId: 4,
+                    userId: userId,
                     restaurantId: findCart.restaurantId,
                     userRequirment: userRequirment,
                     totalPrice: totalPrice,
@@ -87,7 +87,7 @@ export class OrderRepository {
         on a.order_id  = b.order_id
         join menus c
         on b.menu_id = c.menu_id
-        where a.user_id = 4;`     //userId 부분 변경 필요
+        where a.user_id = ${userId};`     //userId 부분 변경 필요
 
         return orders;
     };

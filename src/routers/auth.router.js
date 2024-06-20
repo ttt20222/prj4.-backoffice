@@ -21,4 +21,7 @@ authRouter.post("/verify-email", authController.verifyEmail);
 /** 토큰 재발급 **/
 authRouter.post("/token", requireRefreshToken, authController.reToken);
 
+/** 로그아웃 **/
+authRouter.post("/sign-out", authController.signOut);
+
 export { authRouter };
