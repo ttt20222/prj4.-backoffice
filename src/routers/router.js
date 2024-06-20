@@ -6,6 +6,7 @@ import { requireAccessToken } from '../middlewares/require-access-token.middlewa
 const apiRouter = express.Router();
 
 apiRouter.use('/auth', authRouter);
-apiRouter.use('/users', requireAccessToken, usersRouter);
+// apiRouter.use('/users', requireAccessToken, usersRouter);
+apiRouter.use('/users', usersRouter);
 
 export { apiRouter };
