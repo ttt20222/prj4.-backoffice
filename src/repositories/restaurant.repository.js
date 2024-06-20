@@ -55,7 +55,7 @@ export class RestaurantRepository {
             data: {
             name: restaurantName || existingRestaurant.name, // 업장 이름
             phoneNumber: restaurantPhoneNumber || existingRestaurant.phoneNumber, // 업장 전화번호
-            cityAddress: restaurantCity | existingRestaurant.cityAddress, // 업장 도시
+            cityAddress: restaurantCity || existingRestaurant.cityAddress, // 업장 도시
             streetAddress: restaurantStreetAddress || existingRestaurant.streetAddress, // 업장 도로명 주소
             detailAddress: restaurantDetailAddress || existingRestaurant.detailAddress, // 업장 상세 주소
             mainMenuType: mainFoodType || existingRestaurant.mainMenuType, // 업장 메인 메뉴 종류
