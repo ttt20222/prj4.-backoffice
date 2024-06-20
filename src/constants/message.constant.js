@@ -49,7 +49,7 @@ export const MESSAGES = {
       },
       MENUDESCRIPTION: {
         REQUIRED: "메뉴 설명을 입력해 주세요.",
-        MIN_LENGTH: `자기소개는 10자 이상 작성해야 합니다.`,
+        MIN_LENGTH: `메뉴소개는 8자 이상 작성해야 합니다.`,
       },
       NAME_ALREADY_EXISTS: "이미 존재하는 이름입니다.",
       NOT_FOUND: "메뉴가 존재하지 않습니다.",

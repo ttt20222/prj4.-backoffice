@@ -17,6 +17,8 @@ export class AdminRepository {
         cityAddress: user.cityAddress,
         streetAddress: user.streetAddress,
         detailAddress: user.detailAddress,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       };
     });
     return users;
@@ -63,6 +65,8 @@ export class AdminRepository {
       userId: updatedRole.userId,
       name: updatedRole.name,
       role: updatedRole.role,
+      createdAt: updatedRole.createdAt,
+      updatedAt: updatedRole.updatedAt,
     };
   };
 }

@@ -18,14 +18,6 @@ export class MenusRepository {
         menuImageUrl,
         Restaurant: { connect: { restaurantId: +restaurantId } },
       },
-      select: {
-        menuId: true,
-        menuName: true,
-        menuPrice: true,
-        menuType: true,
-        menuDescription: true,
-        menuImageUrl: true,
-      },
     });
     return createdMenu;
   };
@@ -60,6 +52,8 @@ export class MenusRepository {
         menuType: menu.menuType,
         menuDescription: menu.menuDescription,
         menuImageUrl: menu.menuImageUrl,
+        createdAt: menu.createdAt,
+        updatedAt: menu.updatedAt,
       };
     });
     return menus;
@@ -81,6 +75,8 @@ export class MenusRepository {
       menuType: menu.menuType,
       menuDescription: menu.menuDescription,
       menuImageUrl: menu.menuImageUrl,
+      createdAt: menu.createdAt,
+      updatedAt: menu.updatedAt,
     };
 
     return menu;
