@@ -78,6 +78,7 @@ export class CartRepository {
     //카트에 메뉴 삭제
     deleteCartMenu = async (userId, menuId) => {
         const findCartId = await prisma.Cart.findFirst({
+
             where: { userId : +userId},
             select : {cartId: true}
         });
