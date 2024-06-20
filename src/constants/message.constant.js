@@ -46,6 +46,7 @@ export const MESSAGES = {
       },
     },
     SIGN_UP: {
+      VERIFYEMAIL: '인증 이메일을 전송했습니다. 인증 후 회원가입이 완료됩니다.',
       SUCCEED: '회원가입에 성공했습니다.',
     },
     SIGN_IN: {

@@ -1,6 +1,5 @@
 import Joi from 'joi';
 import { MESSAGES } from '../../constants/message.constant.js';
-// import { MIN_PASSWORD_LENGTH } from '../../constants/auth.constant.js';
 
 // 입력 데이터를 검증할 Joi 스키마 정의
 const schema = Joi.object({
@@ -10,6 +9,7 @@ const schema = Joi.object({
   }),
   password: Joi.string().required().messages({
     'any.required': MESSAGES.AUTH.COMMON.PASSWORD.REQUIRED,
+    'string.min': MESSAGES.AUTH.COMMON.PASSWORD.MIN_LENGTH,
   }),
   checkPassword: Joi.string().valid(Joi.ref('password')).required().messages({
     'any.only': MESSAGES.AUTH.COMMON.PASSWORD.NOT_MATCH,
