@@ -1,4 +1,5 @@
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
+import { HttpError } from '../errors/http.error.js';
 import { RestaurantService } from '../services/restaurant.service.js';
 
 const restaurantService = new RestaurantService();
@@ -90,6 +91,12 @@ export class RestaurantController {
       const restaurantId = parseInt(req.params.restaurantId); // 요청 파라미터에서 업장 ID 가져오기
   
       const { restaurantName, restaurantPhoneNumber, restaurantCity, restaurantStreetAddress, restaurantDetailAddress, mainFoodType, deliveryAvailableArea } = req.body; // 요청 본문에서 데이터 가져오기
+
+      if (!restaurantName && !restaurantPhoneNumber && !restaurantCity && !restaurantAddress && !restaurantStreetAddress && !restaurantDetailAddress && !mainFoodType && deliveryAvailableArea){
+        return res.status(HttpError.BadRequest).json({
+          message: '수정 할 정보를 입력해 주세요.',
+        });
+      };
   
       const updatedRestaurant = await restaurantService.updateRestaurant(
         restaurantId,
