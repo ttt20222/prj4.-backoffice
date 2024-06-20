@@ -1,3 +1,4 @@
+import deleteExpiredUsers from "./utils/prisma/schedulers/deleteExpiredUsers.js";
 import express from "express";
 import "./utils/prisma/index.js";
 import { SERVER_PORT } from "./constants/env.constant.js";
@@ -18,5 +19,11 @@ app.use("/api", apiRouter);
 app.use(errorHandler);
 
 app.listen(SERVER_PORT, () => {
-  console.log(SERVER_PORT, "포트로 서버가 열렸어요!");
+  console.log(SERVER_PORT, '포트로 서버가 열렸어요!');
+
+  // 유효기간이 지난 사용자를 주기적으로 삭제
+  // 1분마다 실행, 즉 1분마다 이메일 인증이 3분 이상 지난 사용자를 발견하여 삭제함
+  setInterval(deleteExpiredUsers, 60 * 1000);
 });
+
+export default app;

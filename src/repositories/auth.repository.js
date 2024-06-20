@@ -22,7 +22,7 @@ export class AuthRepository {
   };
 
   /** userId로 user 찾기 **/
-  findRefreshUserByUserId = async (userId) => {
+  findUserByUserId = async (userId) => {
     const user = await prisma.user.findUnique({
       where: {
         userId: +userId,
@@ -46,5 +46,46 @@ export class AuthRepository {
       },
     });
     return reToken;
+  };
+
+  /** 회원 가입 + 카트 생성 **/
+  signUp = async (
+    email,
+    password,
+    name,
+    nickname,
+    phoneNumber,
+    cityAddress,
+    streetAddress,
+    detailAddress
+  ) => {
+    const newSignUp = await prisma.user.create({
+      data: {
+        email,
+        password,
+        name,
+        nickname,
+        phoneNumber,
+        cityAddress,
+        streetAddress,
+        detailAddress,
+      },
+    });
+    newSignUp.password = undefined;
+    const newCart = await prisma.cart.create({
+      data: {
+        userId: newSignUp.userId,
+      },
+    });
+    return { newSignUp, newCart };
+  };
+
+  /** 이메일 인증 **/
+  verifyEmail = async (email) => {
+    const verified = await prisma.user.update({
+      where: { email },
+      data: { isEmailValid: true },
+    });
+    return verified;
   };
 }

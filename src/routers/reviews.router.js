@@ -1,17 +1,11 @@
 import express from "express";
 import { toS3 } from "../middlewares/multer.middleware.js";
 import { ReviewsController } from "../controllers/reviews.controller.js";
-import { HTTP_STATUS } from "../constants/http-status.constant.js";
 
 const reviewsRouter = express.Router();
 
 // ReviewsController를 인스턴스화 시킨다.
 const reviewsController = new ReviewsController();
-
-/** 리뷰 서버 테스트 **/
-reviewsRouter.get("/review-check", (req, res, next) => {
-  return res.status(HTTP_STATUS.OK).send("review-works!!");
-});
 
 /** 리뷰 생성 C **/
 reviewsRouter.post(
