@@ -93,7 +93,7 @@ export class AuthController {
     try {
       // 1. 필요한 정보 가져오기
       const user = req.user;
-      const payload = { id: user.id };
+      const payload = { id: user.userId };
 
       // 2. 토큰 재발급에 필요한 정보를 service에 넘겨주기
       const reTokenData = await this.authService.generateAuthTokens(payload);

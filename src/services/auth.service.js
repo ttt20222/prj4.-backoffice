@@ -92,6 +92,7 @@ export class AuthService {
   generateAuthTokens = async (payload) => {
     // 1. payload에서 userId 획득
     const userId = payload.id;
+    console.log(userId);
 
     // 2. payload로 accessToken, hashedRefreshToken 획득
     const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
