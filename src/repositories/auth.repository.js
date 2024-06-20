@@ -5,7 +5,7 @@ export class AuthRepository {
   findUserByEmail = async (email) => {
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        email: email,
       },
     });
     return user;

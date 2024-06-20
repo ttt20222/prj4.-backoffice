@@ -12,8 +12,14 @@ export class MenusService {
     menuPrice,
     menuType,
     menuDescription,
-    menuImageUrl
+    menuImageUrl,
+    role
   ) => {
+    //사장님만 자기 업장의 주문 상태를 볼 수 있음.
+    if (role != "OWNER") {
+      throw new HttpError.Forbidden("사장님이 아닙니다.");
+    }
+
     // 이미 존재하는 메뉴 이름인지 체크
     const existedMenuName = await this.menusRepository.findByMenuName(
       restaurantId,
@@ -74,8 +80,14 @@ export class MenusService {
     menuPrice,
     menuType,
     menuDescription,
-    menuImageUrl
+    menuImageUrl,
+    role
   ) => {
+    //사장님만 자기 업장의 주문 상태를 볼 수 있음.
+    if (role != "OWNER") {
+      throw new HttpError.Forbidden("사장님이 아닙니다.");
+    }
+
     const existedMenu = await this.menusRepository.readById(
       restaurantId,
       menuId
@@ -107,7 +119,12 @@ export class MenusService {
     return updatedMenu;
   };
 
-  delete = async (menuId, restaurantId) => {
+  delete = async (menuId, restaurantId, role) => {
+    //사장님만 자기 업장의 주문 상태를 볼 수 있음.
+    if (role != "OWNER") {
+      throw new HttpError.Forbidden("사장님이 아닙니다.");
+    }
+
     const existedMenu = await this.menusRepository.readById(
       restaurantId,
       menuId

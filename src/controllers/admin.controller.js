@@ -7,7 +7,8 @@ export class AdminController {
 
   readAll = async (req, res, next) => {
     try {
-      const users = await this.adminService.readAll();
+      const adminRole = req.user.role;
+      const users = await this.adminService.readAll(adminRole);
 
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
@@ -21,10 +22,16 @@ export class AdminController {
 
   update = async (req, res, next) => {
     try {
+      const adminRole = req.user.role;
       //req.body에서 데이터 추출
       const { userId, name, role } = req.body;
 
-      const updatedRole = await this.adminService.update(userId, name, role);
+      const updatedRole = await this.adminService.update(
+        userId,
+        name,
+        role,
+        adminRole
+      );
 
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
