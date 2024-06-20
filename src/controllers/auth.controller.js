@@ -101,7 +101,8 @@ export class AuthController {
       // 3. 토큰 재발급 결과를 클라이언트에 반환
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
-        message: MESSAGES.AUTH.SIGN_IN.SUCCEED,
+        // message: MESSAGES.AUTH.SIGN_IN.SUCCEED,
+        message: "토큰 재발급에 성공했습니다.",
         data: reTokenData,
       });
     } catch (err) {
@@ -109,7 +110,7 @@ export class AuthController {
     }
   };
 
-    //로그아웃 /auth/sign-out
+  //로그아웃 /auth/sign-out
   signOut = async (req, res, next) => {
     try {
       const { userId } = req.user;

@@ -8,7 +8,6 @@ export class ReviewsController {
   /** 리뷰 생성 C **/
   createReview = async (req, res, next) => {
     try {
-      req.user = { userId: 4 };
       // 1. 필요한 정보 받아오기
       // 1-1. 로그인 정보로부터 user 정보 가져오기
       const { userId } = req.user;
@@ -44,7 +43,6 @@ export class ReviewsController {
   /** 리뷰 조회 R **/
   getReviews = async (req, res, next) => {
     try {
-      req.user = { userId: 4 };
       // 1. 필요한 정보 받아오기
       // 1-1. req.params로부터 restaurantId 가져오기
       const { restaurantId } = req.params;
@@ -69,7 +67,6 @@ export class ReviewsController {
   /** 리뷰 수정 U **/
   updateReview = async (req, res, next) => {
     try {
-      req.user = { userId: 4 };
       // 1. 필요한 정보 받아오기
       // 1-1. 로그인 정보로부터 user 정보 가져오기
       const { userId } = req.user;
@@ -77,6 +74,8 @@ export class ReviewsController {
       const { restaurantId, reviewId } = req.params;
       // 1-3. req.body로부터 수정할 내용 가져오기
       const { score, review } = req.body;
+      // 1-4. req.files에 등록된 파일목록 가져오기
+      const files = req.files;
 
       // 2-INPUT: reviewsService에 매개변수로 위 정보를 투입
       const updatedReview = await this.reviewsService.updateReview(
@@ -84,7 +83,8 @@ export class ReviewsController {
         restaurantId,
         reviewId,
         score,
-        review
+        review,
+        files
       );
       // 2-OUTPUT: reviewsService로부터 넘어온 updatedReview 정보 받음
 
@@ -102,7 +102,6 @@ export class ReviewsController {
   /** 리뷰 삭제 D **/
   deleteReview = async (req, res, next) => {
     try {
-      req.user = { userId: 4 };
       // 1. 필요한 정보 가져오기
       // 1-1. 로그인 정보로부터 user 정보 가져오기
       const { userId } = req.user;

@@ -84,7 +84,14 @@ export class ReviewsService {
   };
 
   /** 리뷰 수정 U **/
-  updateReview = async (userId, restaurantId, reviewId, score, review) => {
+  updateReview = async (
+    userId,
+    restaurantId,
+    reviewId,
+    score,
+    review,
+    files
+  ) => {
     // 1. 해당 식당이 존재하는지?
     // 1-1. 해당 식당 존재여부 reviewsRepository에 물어보기
     // 이 부분은 팀원들과 파일 합치면 팀원이 만든 다른 Repository 함수로 변경
@@ -112,7 +119,8 @@ export class ReviewsService {
       userId,
       reviewId,
       score,
-      review
+      review,
+      files
     );
     // 3-OUTPUT: reviewsRepository로부터 수정된 updatedReview 정보 받음
 
