@@ -70,7 +70,7 @@ export class OrderRepository {
     };
 
     //내가 주문한 목록 조회
-    readOrders = async () => {
+    readOrders = async (userId) => {
         const orders = await prisma.$queryRaw
         `select a.order_id as orderId
                 , a.user_id as userId

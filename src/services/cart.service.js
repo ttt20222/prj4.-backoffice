@@ -41,7 +41,7 @@ export class CartService {
             throw new HttpError.BadRequest('해당 메뉴가 존재하지 않습니다.');
         };
 
-        const returnCarts = await this.readCarts();
+        const returnCarts = await this.readCarts(userId);
 
         return returnCarts;
     };
