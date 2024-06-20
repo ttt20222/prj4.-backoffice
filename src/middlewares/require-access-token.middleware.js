@@ -1,11 +1,10 @@
-import jwt from 'jsonwebtoken';
-import { HTTP_STATUS } from '../constants/http-status.constant.js';
-import { MESSAGES } from '../constants/message.constant.js';
-import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
-// import { Prisma } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+import jwt from "jsonwebtoken";
+import { HTTP_STATUS } from "../constants/http-status.constant.js";
+import { MESSAGES } from "../constants/message.constant.js";
+import { ACCESS_TOKEN_SECRET } from "../constants/env.constant.js";
+import { AuthRepository } from "../repositories/auth.repository.js";
 
-const Prisma = new PrismaClient();
+const authRepository = new AuthRepository();
 
 export const requireAccessToken = async (req, res, next) => {
   try {
@@ -21,9 +20,9 @@ export const requireAccessToken = async (req, res, next) => {
     }
 
     // JWT 표준 인증 형태와 일치하지 않는 경우
-    const [type, accessToken] = authorization.split(' ');
+    const [type, accessToken] = authorization.split(" ");
 
-    if (type !== 'Bearer') {
+    if (type !== "Bearer") {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
         status: HTTP_STATUS.UNAUTHORIZED,
         message: MESSAGES.AUTH.COMMON.JWT.NOT_SUPPORTED_TYPE,
@@ -43,7 +42,7 @@ export const requireAccessToken = async (req, res, next) => {
       payload = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
     } catch (error) {
       // AccessToken의 유효기한이 지난 경우
-      if (error.name === 'TokenExpiredError') {
+      if (error.name === "TokenExpiredError") {
         return res.status(HTTP_STATUS.UNAUTHORIZED).json({
           status: HTTP_STATUS.UNAUTHORIZED,
           message: MESSAGES.AUTH.COMMON.JWT.EXPIRED,
@@ -59,21 +58,8 @@ export const requireAccessToken = async (req, res, next) => {
     }
 
     // Payload에 담긴 사용자 ID와 일치하는 사용자가 없는 경우
-    const { id } = payload;
-    const user = await Prisma.user.findUnique({
-      // user테이블의 id명은 userId이기에 where조건에 userId: id라고 입력해준다.
-      where: { userId: id },
-      select: {
-        userId: true,
-        email: true,
-        name: true,
-        nickname: true,
-        phoneNumber: true,
-        cityAddress: true,
-        streetAddress: true,
-        detailAddress: true
-      },
-    });
+    const userId = payload.id;
+    const user = await authRepository.findUserByUserId(userId);
 
     if (!user) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({

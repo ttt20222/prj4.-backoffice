@@ -61,7 +61,7 @@ export const requireRefreshToken = async (req, res, next) => {
     }
 
     // 5. DB에서 RefreshToken 조회
-    const { userId } = payload;
+    const userId = payload.id;
     const existingRefreshToken = await authRepository.findRefreshTokenByUserId(
       userId
     );
@@ -78,7 +78,7 @@ export const requireRefreshToken = async (req, res, next) => {
     }
 
     // 6. Payload에 담긴 사용자 ID와 일치하는 사용자가 없는 경우
-    const user = await authRepository.findRefreshUserByUserId(userId);
+    const user = await authRepository.findUserByUserId(userId);
     // 6-1. 사용자가 없는 경우
     if (!user) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
