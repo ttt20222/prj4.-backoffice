@@ -44,11 +44,10 @@ export class OrderController {
     //주문상태변경
     updateOrderStatus = async (req, res, next) => {
         try {
-            const { userId } = req.user;
             const params = req.params;
             const orderId = params.orderId;
 
-            const newOrders = await orderService.updateOrderStatus(userId, orderId);
+            const newOrders = await orderService.updateOrderStatus(orderId);
 
             return res.status(HTTP_STATUS.CREATED).json({
                 status: HTTP_STATUS.CREATED,

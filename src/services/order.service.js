@@ -39,7 +39,7 @@ export class OrderService {
             throw new HttpError.BadRequest("해당 주문이 없습니다.");
         };
 
-        const order = await orderRepository.updateOrderStatus(userId, orderId);
+        const order = await orderRepository.updateOrderStatus(orderId);
 
         return order;
     };
