@@ -2,6 +2,7 @@ import { prisma } from "../utils/prisma/index.js";
 import { Prisma } from "@prisma/client";
 
 export class CartRepository {
+    //카트에 메뉴 담는 것 생성  (카트 테이블에 레스토랑 id 생성 + 카트디테일 테이블 생성)
     createCartDetail = async (restaurantId, menuId, menuCount) => {
         const [createCartDetail, updateCart] = await prisma.$transaction(async (tx) => {
 
@@ -24,6 +25,7 @@ export class CartRepository {
         return createCartDetail;
     };
 
+    //카트 찾기
     readCarts = async () => {
         const findCartId = await prisma.Cart.findFirst({
             where: { userId : 4},
@@ -47,6 +49,7 @@ export class CartRepository {
         return readCarts;
     };
 
+    //카트 메뉴 업데이트
     updateCartDetail = async (menuCount, menuId) => {
         const findCartId = await prisma.Cart.findFirst({
             where: { userId : 4},
@@ -65,6 +68,7 @@ export class CartRepository {
         return updateCartMenuCount;
     };
 
+    //카트에 메뉴 삭제
     deleteCartMenu = async (menuId) => {
         const findCartId = await prisma.Cart.findFirst({
             where: { userId : 4},

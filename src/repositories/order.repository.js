@@ -2,6 +2,7 @@ import { prisma } from "../utils/prisma/index.js";
 
 export class OrderRepository {
 
+    //주문 생성  (카트 테이블 레스토랑 아이디 비우기 -> 주문테이블 생성 -> 주문디테일 테이블 생성 -> 카드디테일테이블 비우기)
     createOrder = async (userRequirment) => {
         const findCart = await prisma.cart.findFirst({
             where: { userId: 4 }
@@ -68,6 +69,7 @@ export class OrderRepository {
         });
     };
 
+    //내가 주문한 목록 조회
     readOrders = async () => {
         const orders = await prisma.$queryRaw
         `select a.order_id as orderId
@@ -90,6 +92,7 @@ export class OrderRepository {
         return orders;
     };
 
+    //주문 상태 변경
     updateOrderStatus = async (orderId) => {
         const order = await prisma.Order.update({
             where: {orderId: +orderId},
@@ -101,6 +104,7 @@ export class OrderRepository {
         return order;
     };
 
+    //주문 찾기
     findeOrder = async (orderId) => {
         const order = await prisma.Order.findFirst({
             where : {orderId : +orderId},

@@ -5,12 +5,14 @@ const orderRepository = new OrderRepository();
 
 export class OrderService {
 
+    //주문생성
     createOrder = async (userRequirment) => {
         const createOrder = await orderRepository.createOrder(userRequirment);
 
         return createOrder;
     };
 
+    //내주문 조회
     readOrders = async () => {
         const orders = await orderRepository.readOrders();
 
@@ -29,6 +31,7 @@ export class OrderService {
         }));
     };
 
+    //주문상태 변경
     updateOrderStatus = async (orderId) => {
         const findOrder = await orderRepository.findeOrder(orderId);
 
