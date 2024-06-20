@@ -14,3 +14,4 @@ try {
 } catch (error) {
   console.error("DB 연결에 실패했습니다.", error);
 }
+
