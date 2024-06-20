@@ -70,19 +70,32 @@ class RestaurantRepository {
   // 업장 검색 메서드
   async searchRestaurants(name, mainMenuType) {
     try {
+      let whereCondition = {};
+      if (name) {
+        whereCondition.name = { contains: name };
+      }
+      if (mainMenuType) {
+        whereCondition.mainMenuType = { contains: mainMenuType };
+      }
+  
       const restaurants = await prisma.restaurant.findMany({
-        where: {
+        where: Object.keys(whereCondition).length > 0 ? {
           OR: [
-            { name: { contains: name || '' } }, // 이름으로 검색
-            { mainMenuType: { contains: mainMenuType || '' } } // 메인 메뉴 종류로 검색
+            { name: whereCondition.name || {} },
+            { mainMenuType: whereCondition.mainMenuType || {} }
           ]
-        }
+        } : {}
       });
-      return restaurants; // 검색된 업장 반환
+  
+      if (!restaurants || restaurants.length === 0) {
+        throw { status: 404, errorMessage: "업장을 찾을 수 없습니다." };
+      }
+  
+      return restaurants;
     } catch (error) {
-      throw error; // 에러 발생 시 예외 처리
+      throw error;
     }
-  }
+  }        
 
   // 업장 ID로 업장 조회 메서드
   async getRestaurantById(restaurantId) {
