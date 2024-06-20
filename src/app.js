@@ -1,6 +1,3 @@
-
-import restaurantsRouter from './routes/restaurants.router.js';
-
 import express from "express";
 import "./utils/prisma/index.js";
 import { SERVER_PORT } from "./constants/env.constant.js";
@@ -12,8 +9,6 @@ const app = express(); // Express 애플리케이션 인스턴스 생성
 
 app.use(express.json()); // JSON 형식의 요청 본문을 구문 분석하는 미들웨어 추가
 app.use(express.urlencoded({ extended: true })); // URL-encoded 형식의 요청 본문을 구문 분석하는 미들웨어 추가
-
-app.use('/restaurants', restaurantsRouter); // '/restaurants' 경로로 들어오는 요청에 대해 restaurantsRouter 사용
 
 app.get("/server-check", (req, res, next) => {
   return res.status(HTTP_STATUS.OK).send("server works!!");

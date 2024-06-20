@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { MESSAGES } from "../../constants/message.constant.js";
 
-const shema = Joi.object({
+const schema = Joi.object({
   //   orderId, score, review
   orderId: Joi.number().required().messages({
     "any.required": MESSAGES.REVIEW.CREATE.NO_ORDER_ID,
