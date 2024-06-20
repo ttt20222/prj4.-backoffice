@@ -1,6 +1,12 @@
-import express from 'express';
-import { SERVER_PORT } from './constants/env.constant.js';
+
 import restaurantsRouter from './routes/restaurants.router.js';
+
+import express from "express";
+import "./utils/prisma/index.js";
+import { SERVER_PORT } from "./constants/env.constant.js";
+import { HTTP_STATUS } from "./constants/http-status.constant.js";
+import { apiRouter } from "./routers/index.js";
+import { errorHandler } from "./middlewares/error-handler.middleware.js";
 
 const app = express(); // Express 애플리케이션 인스턴스 생성
 
@@ -9,7 +15,13 @@ app.use(express.urlencoded({ extended: true })); // URL-encoded 형식의 요청
 
 app.use('/restaurants', restaurantsRouter); // '/restaurants' 경로로 들어오는 요청에 대해 restaurantsRouter 사용
 
-// 서버 시작
+app.get("/server-check", (req, res, next) => {
+  return res.status(HTTP_STATUS.OK).send("server works!!");
+});
+
+app.use("/api", apiRouter);
+app.use(errorHandler);
+
 app.listen(SERVER_PORT, () => {
-  console.log(`Server is running on http://localhost:${SERVER_PORT}`); // 서버가 실행 중인 포트 출력
+  console.log(SERVER_PORT, "포트로 서버가 열렸어요!");
 });

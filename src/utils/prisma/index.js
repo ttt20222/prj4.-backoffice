@@ -1,15 +1,17 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient(); // PrismaClient 인스턴스 생성
+export const prisma = new PrismaClient({
+  // Prisma를 이용해 데이터베이스를 접근할 때, SQL을 출력해줍니다.
+  log: ["query", "info", "warn", "error"],
 
-export default prisma; // prisma 인스턴스를 기본 내보내기로 설정
+  // 에러 메시지를 평문이 아닌, 개발자가 읽기 쉬운 형태로 출력해줍니다.
+  errorFormat: "pretty",
+}); // PrismaClient 인스턴스를 생성합니다.
 
-// 데이터베이스 연결 함수 정의
-export async function connectDB() {
-  try {
-    await prisma.$connect(); // 데이터베이스 연결 시도
-    console.log('DB 연결에 성공했습니다.'); // 연결 성공 시 메시지 출력
-  } catch (error) {
-    console.error('DB 연결에 실패했습니다.', error); // 연결 실패 시 에러 메시지 출력
-  }
+try {
+  await prisma.$connect();
+  console.log("DB 연결에 성공했습니다.");
+} catch (error) {
+  console.error("DB 연결에 실패했습니다.", error);
 }
+

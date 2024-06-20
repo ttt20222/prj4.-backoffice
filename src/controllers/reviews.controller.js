@@ -1,113 +1,130 @@
-// import prisma from '../prisma/client.js';
-// import { validationResult } from 'express-validator';
+import { MESSAGES } from "../constants/message.constant.js";
+import { HTTP_STATUS } from "../constants/http-status.constant.js";
+import { ReviewsService } from "../services/reviews.service.js";
 
-// // 리뷰 생성
-// export const createReview = async (req, res) => {
-//   const { restaurantId } = req.params;
-//   const { orderId, score, review } = req.body;
-  
-//   try {
-    
-//     const createdReview = await prisma.review.create({
-//       data: {
-//         UserId: req.user.userId, 
-//         RestaurantId: parseInt(restaurantId),
-//         orderId: orderId,
-//         score: score,
-//         review: review,
-//         createdAt: new Date(),
-//         updatedAt: new Date(),
-//       },
-//       include: {
-//         Image: true, 
-//       },
-//     });
+export class ReviewsController {
+  reviewsService = new ReviewsService();
 
-//     res.status(201).json({
-//       status: 201,
-//       message: '리뷰 작성에 성공했습니다.',
-//       data: createdReview,
-//     });
-//   } catch (error) {
-//     console.error('Error creating review:', error);
-//     res.status(500).json({ status: 500, message: '리뷰 작성 중 오류가 발생했습니다.' });
-//   }
-// };
+  /** 리뷰 생성 C **/
+  createReview = async (req, res, next) => {
+    try {
+      req.user = { userId: 4 };
+      // 1. 필요한 정보 받아오기
+      // 1-1. 로그인 정보로부터 user 정보 가져오기
+      const { userId } = req.user;
+      // 1-2. req.params로부터 restaurantId 가져오기
+      const { restaurantId } = req.params;
+      // 1-3. req.body에 입력된 데이터들 가져오기
+      const { orderId, score, review } = req.body;
+      // 1-4. req.files에 등록된 파일목록 가져오기
+      const files = req.files;
 
-// // 리뷰 조회
-// export const getReview = async (req, res) => {
-//   const { restaurantId, reviewId } = req.params;
+      // 2-INPUT: reviewsService에 매개변수로 위 정보 투입
+      const createdReview = await this.reviewsService.createReview(
+        userId,
+        restaurantId,
+        orderId,
+        score,
+        review,
+        files
+      );
+      // 2-OUTPUT: reviewsService로부터 넘어온 createdReview 정보 받음
 
-//   try {
-//     const review = await prisma.review.findUnique({
-//       where: {
-//         reviewId: parseInt(reviewId),
-//       },
-//     });
+      // 3. 받아온 createdReview 정보를 클라이언트에 반환
+      return res.status(HTTP_STATUS.CREATED).json({
+        status: HTTP_STATUS.CREATED,
+        message: MESSAGES.REVIEWS.CREATE.SUCCEED,
+        data: createdReview,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 
-//     if (!review) {
-//       return res.status(404).json({ status: 404, message: '존재하지 않는 리뷰입니다.' });
-//     }
+  /** 리뷰 조회 R **/
+  getReviews = async (req, res, next) => {
+    try {
+      req.user = { userId: 4 };
+      // 1. 필요한 정보 받아오기
+      // 1-1. req.params로부터 restaurantId 가져오기
+      const { restaurantId } = req.params;
+      // 1-2. 쿼리스트링으로 sort(정렬) 정보 가져오기
+      const { sort } = req.query;
 
-//     res.status(200).json({
-//       status: 200,
-//       message: '리뷰 조회에 성공했습니다.',
-//       data: review,
-//     });
-//   } catch (error) {
-//     console.error('Error fetching review:', error);
-//     res.status(500).json({ status: 500, message: '리뷰 조회 중 오류가 발생했습니다.' });
-//   }
-// };
+      // 2-INPUT: reviewsService에 매개변수로 위 정보를 투입
+      const reviews = await this.reviewsService.getReviews(restaurantId, sort);
+      // 2-OUTPUT: reviewsService로부터 넘어온 reviews 정보 받음
 
-// // 리뷰 수정
-// export const updateReview = async (req, res) => {
-//   const { restaurantId, reviewId } = req.params;
-//   const { score, review } = req.body;
+      // 3. 받아온 reviews 정보를 클라이언트에 반환
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: MESSAGES.REVIEWS.READ_LIST.SUCCEED,
+        data: reviews,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 
-//   try {
-//     const updatedReview = await prisma.review.update({
-//       where: {
-//         reviewId: parseInt(reviewId),
-//       },
-//       data: {
-//         score: score,
-//         review: review,
-//         updatedAt: new Date(),
-//       },
-//       include: {
-//         Image: true, 
-//       },
-//     });
+  /** 리뷰 수정 U **/
+  updateReview = async (req, res, next) => {
+    try {
+      req.user = { userId: 4 };
+      // 1. 필요한 정보 받아오기
+      // 1-1. 로그인 정보로부터 user 정보 가져오기
+      const { userId } = req.user;
+      // 1-2. req.params로부터 restaurantId, reviewId 가져오기
+      const { restaurantId, reviewId } = req.params;
+      // 1-3. req.body로부터 수정할 내용 가져오기
+      const { score, review } = req.body;
 
-//     res.status(200).json({
-//       status: 200,
-//       message: '리뷰 수정에 성공했습니다.',
-//       data: updatedReview,
-//     });
-//   } catch (error) {
-//     console.error('Error updating review:', error);
-//     res.status(500).json({ status: 500, message: '리뷰 수정 중 오류가 발생했습니다.' });
-//   }
-// };
+      // 2-INPUT: reviewsService에 매개변수로 위 정보를 투입
+      const updatedReview = await this.reviewsService.updateReview(
+        userId,
+        restaurantId,
+        reviewId,
+        score,
+        review
+      );
+      // 2-OUTPUT: reviewsService로부터 넘어온 updatedReview 정보 받음
 
-// // 리뷰 삭제
-// export const deleteReview = async (req, res) => {
-//   const { restaurantId, reviewId } = req.params;
+      // 3. 받아온 updatedReview 정보를 클라이언트에 반환
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: MESSAGES.REVIEWS.UPDATE.SUCCEED,
+        data: updatedReview,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 
-//   try {
-//     const deletedReview = await prisma.review.delete({
-//       where: {
-//         reviewId: parseInt(reviewId),
-//       },
-//     });
+  /** 리뷰 삭제 D **/
+  deleteReview = async (req, res, next) => {
+    try {
+      req.user = { userId: 4 };
+      // 1. 필요한 정보 가져오기
+      // 1-1. 로그인 정보로부터 user 정보 가져오기
+      const { userId } = req.user;
+      // 1-2. req.params로부터 restaurantId, reviewId 가져오기
+      const { restaurantId, reviewId } = req.params;
 
-//     res.status(200).json({
-//       status: 200,
-//       message: '리뷰 삭제에 성공했습니다.',
-//     });
-//   } catch (error) {
-//     console.error('Error deleting review:', error);
-//     res.status(500).json({ status: 500, message: '리뷰 삭제 중 오류가 발생했습니다.' });
-//   }
-// };
+      // 2-INPUT: reviewsService에 매개변수로 위 정보를 투입
+      const deletedReview = await this.reviewsService.deleteReview(
+        userId,
+        restaurantId,
+        reviewId
+      );
+      // 2-OUTPUT: reviewsService로부터 넘어온 deletedReview 정보 받음
+
+      // 3. 받아온 deletedReview 정보를 클라이언트에 반환
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: MESSAGES.REVIEWS.DELETE.SUCCEED,
+        data: deletedReview.reviewId,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+}
