@@ -1,5 +1,4 @@
 import { HTTP_STATUS } from "../constants/http-status.constant.js";
-import { HttpError } from "../errors/http.error.js";
 
 export const errorHandler = (err, req, res, next) => {
   // 에러를 출력합니다.
