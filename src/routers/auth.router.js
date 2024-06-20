@@ -1,7 +1,6 @@
 import express from "express";
 import { signUpValidator } from "../middlewares/validators/sign-up-validator.middleware.js";
 import { signInValidator } from "../middlewares/validators/sign-in-validator.middleware.js";
-import { PrismaClient } from "@prisma/client";
 import { requireRefreshToken } from "../middlewares/require-refresh-token.middleware.js";
 import { AuthController } from "../controllers/auth.controller.js";
 
@@ -22,6 +21,6 @@ authRouter.post("/verify-email", authController.verifyEmail);
 authRouter.post("/token", requireRefreshToken, authController.reToken);
 
 /** 로그아웃 **/
-authRouter.post("/sign-out", authController.signOut);
+authRouter.post("/sign-out", requireRefreshToken, authController.signOut);
 
 export { authRouter };

@@ -88,6 +88,7 @@ export const requireRefreshToken = async (req, res, next) => {
     }
     // 6-2. 사용자가 있는 경우 req.user에 해당 user 정보 담아주기
     req.user = user;
+    next();
   } catch (err) {
     next(err);
   }

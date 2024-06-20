@@ -13,7 +13,7 @@ export class AuthRepository {
 
   /** userId로 RefreshToken 찾기 **/
   findRefreshTokenByUserId = async (userId) => {
-    const existingRefreshToken = await prisma.refreshToken.findUnique({
+    const existingRefreshToken = await prisma.Token.findUnique({
       where: {
         userId: +userId,
       },
