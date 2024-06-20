@@ -1,5 +1,6 @@
 import { HttpError } from '../errors/http.error.js';
 import { RestaurantRepository } from '../repositories/restaurant.repository.js';
+import { mainMenuTypes } from '../constants/main-menu.type.js';
 
 const restaurantRepository = new RestaurantRepository(); // RestaurantRepository 인스턴스 생성
 export class RestaurantService {
@@ -73,7 +74,7 @@ export class RestaurantService {
         const checkRestaurant = await restaurantRepository.getRestaurantById(restaurantId);
         
         if(!checkRestaurant) {
-            throw new HttpError.BadRequest('업장이 존재하지 않습니다.');
+            throw new HttpError.NotFound('업장이 존재하지 않습니다.');
         }
 
         //자기 업장만 삭제 가능
@@ -83,6 +84,41 @@ export class RestaurantService {
 
         const deleted = await restaurantRepository.deleteRestaurant(restaurantId); // 레스토랑 삭제
         return deleted;
+    };
+
+    /** 업장 검색 **/
+    //1. 메인메뉴 타입 찾기
+    findMenuType = async (searchWord) => {
+        if(!searchWord){
+            throw new HttpError.BadRequest('검색 키워드를 입력해주세요.');
+        };
+        
+        for (let [type, keywords] of Object.entries(mainMenuTypes)) {
+            if (keywords.includes(searchWord)) {
+            return [type, searchWord];
+            }
+        };
+        return [undefined, searchWord];
+    };
+
+    //메인메뉴 타입에 맞는 업장 찾기
+    searchRestaurant = async (type, keyWord) => {
+        
+        const findRestaurants = await restaurantRepository.searchRestaurant(type, keyWord);
+
+        if(findRestaurants.length === 0) {
+            throw new HttpError.NotFound('검색 결과 업장이 존재하지 않습니다.! 텅!');
+        };
+
+        return findRestaurants.map((restaurant) => ({
+            name : restaurant.name,
+            phoneNumber : restaurant.phoneNumber,
+            cityAddress : restaurant.cityAddress,
+            streetAddress : restaurant.streetAddress,
+            detailAddress : restaurant.detailAddress,
+            mainMenuType : restaurant.mainMenuType,
+            deliveryAvailableArea : restaurant.deliveryAvailableArea,
+        }));
     };
 }
 
