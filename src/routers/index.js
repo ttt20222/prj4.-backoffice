@@ -1,4 +1,5 @@
 import express from "express";
+import { authRouter } from "./auth.router.js";
 import { reviewsRouter } from "./reviews.router.js";
 import { menusRouter } from "./menus.router.js";
 import CartRouter from './cart.router.js';
@@ -9,15 +10,10 @@ import RestaurantRouter from './restaurants.router.js';
 
 const apiRouter = express.Router();
 
-apiRouter.get("/api-check", (req, res, next) => {
-  return res.status(HTTP_STATUS.OK).send("api works!!");
-});
-apiRouter.use("/restaurants", reviewsRouter, menusRouter);
-
 apiRouter.use("/admin", adminRouter);
+apiRouter.use("/auth", authRouter);
+apiRouter.use("/restaurants", reviewsRouter, menusRouter, RestaurantRouter);
 apiRouter.use('/carts', CartRouter);
 apiRouter.use('/orders', OrderRouter);
-apiRouter.use('/restaurants', RestaurantRouter);
-
 
 export { apiRouter };
