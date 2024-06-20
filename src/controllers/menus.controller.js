@@ -70,6 +70,7 @@ export class MenusController {
 
   update = async (req, res, next) => {
     try {
+      const { role } = req.user;
       //path parameters에서 restaurantId 추출
       const { restaurantId, menuId } = req.params;
       //req.body에서 데이터 추출
@@ -85,7 +86,8 @@ export class MenusController {
         menuPrice,
         menuType,
         menuDescription,
-        menuImageUrl
+        menuImageUrl,
+        role
       );
 
       return res.status(HTTP_STATUS.OK).json({
@@ -100,10 +102,11 @@ export class MenusController {
 
   delete = async (req, res, next) => {
     try {
+      const { role } = req.user;
       //path parameters에서 restaurantId 추출
       const { menuId, restaurantId } = req.params;
 
-      await this.menusService.delete(menuId, restaurantId);
+      await this.menusService.delete(menuId, restaurantId, role);
 
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,
