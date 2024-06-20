@@ -175,5 +175,23 @@ export class RestaurantController {
             next(error);
         }
     };
-}
 
+    //업장 검색
+    searchRestaurant = async (req, res, next) => {
+      try{
+        const { searchWord } = req.body;
+
+        const [type, keyWord] = await restaurantService.findMenuType(searchWord);
+
+        const restaurant = await restaurantService.searchRestaurant(type, keyWord);
+
+        return res.status(HTTP_STATUS.OK).json({
+          status: HTTP_STATUS.OK,
+          message: "검색 결과입니다.",
+          data: restaurant,
+      });
+      }catch(error){
+        next(error);
+      }
+    };
+}
