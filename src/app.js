@@ -2,13 +2,14 @@ import express from 'express';
 import { SERVER_PORT } from './constants/env.constant.js';
 import restaurantsRouter from './routes/restaurants.router.js';
 
-const app = express();
+const app = express(); // Express 애플리케이션 인스턴스 생성
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // JSON 형식의 요청 본문을 구문 분석하는 미들웨어 추가
+app.use(express.urlencoded({ extended: true })); // URL-encoded 형식의 요청 본문을 구문 분석하는 미들웨어 추가
 
-app.use('/restaurants', restaurantsRouter);
+app.use('/restaurants', restaurantsRouter); // '/restaurants' 경로로 들어오는 요청에 대해 restaurantsRouter 사용
 
+// 서버 시작
 app.listen(SERVER_PORT, () => {
-  console.log(`Server is running on http://localhost:${SERVER_PORT}`);
+  console.log(`Server is running on http://localhost:${SERVER_PORT}`); // 서버가 실행 중인 포트 출력
 });
