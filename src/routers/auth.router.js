@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -14,9 +15,14 @@ import { ACCESS_TOKEN_SECRET } from '../constants/env.constant.js';
 import { transporter } from './transporter.js';
 import { SERVER_IP, SERVER_PORT } from '../constants/env.constant.js'
 import { MIN_PASSWORD_LENGTH } from '../constants/auth.constant.js';
+import { requireRefreshToken } from "../middlewares/require-refresh-token.middleware.js";
+import { AuthController } from "../controllers/auth.controller.js";
 
 const Prisma = new PrismaClient();
 const authRouter = express.Router();
+
+const authController = new AuthController();
+
 
 // 회원가입
 authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
@@ -97,7 +103,7 @@ authRouter.post('/sign-up', signUpValidator, async (req, res, next) => {
     }
 });
 
-// 로그인
+/** 로그인(+refreshToken!!추가수정해야함) **/
 authRouter.post('/sign-in', signInValidator, async (req, res, next) => {
     try {
         // 요청 본문에서 이메일과 비밀번호를 추출
@@ -164,5 +170,8 @@ authRouter.post('/verify-email', async (req, res, next) => {
         next(error);
     }
 });
+
+/** 토큰 재발급 **/
+authRouter.post("/token", requireRefreshToken, authController.reToken);
 
 export { authRouter };

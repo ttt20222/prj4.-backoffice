@@ -26,6 +26,7 @@ model User {
   Cart          Cart?
   Order         Order[]
   Review        Review[]
+  Token         Token?
 
   @@map("users")
 }
@@ -183,4 +184,16 @@ model Image {
   Review    Review   @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
 
   @@map("images")
+}
+
+model Token {
+  tokenId      Int      @id @default(autoincrement()) @map("token_id")
+  userId       Int      @unique @map("user_id")
+  refreshToken String   @map("refresh_token")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  User User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@map("tokens")
 }
