@@ -4,13 +4,13 @@ import { MESSAGES } from "../../constants/message.constant.js";
 const schema = Joi.object({
   //   orderId, score, review
   orderId: Joi.number().required().messages({
-    "any.required": MESSAGES.REVIEW.CREATE.NO_ORDER_ID,
+    "any.required": MESSAGES.REVIEWS.CREATE.NO_ORDER_ID,
   }),
   score: Joi.number().required().messages({
-    "any.required": MESSAGES.REVIEW.CREATE.NO_SCORE,
+    "any.required": MESSAGES.REVIEWS.CREATE.NO_SCORE,
   }),
   review: Joi.string().required().messages({
-    "any.required": MESSAGES.REVIEW.CREATE.NO_REVIEW,
+    "any.required": MESSAGES.REVIEWS.CREATE.NO_REVIEW,
   }),
 });
 

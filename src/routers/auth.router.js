@@ -1,6 +1,7 @@
 import express from "express";
 import { signUpValidator } from "../middlewares/validators/sign-up-validator.middleware.js";
 import { signInValidator } from "../middlewares/validators/sign-in-validator.middleware.js";
+import { requireAccessToken } from "../middlewares/require-access-token.middleware.js";
 import { requireRefreshToken } from "../middlewares/require-refresh-token.middleware.js";
 import { AuthController } from "../controllers/auth.controller.js";
 
@@ -18,7 +19,12 @@ authRouter.post("/sign-in", signInValidator, authController.signIn);
 authRouter.post("/verify-email", authController.verifyEmail);
 
 /** 토큰 재발급 **/
-authRouter.post("/token", requireRefreshToken, authController.reToken);
+authRouter.post(
+  "/token",
+  requireAccessToken,
+  requireRefreshToken,
+  authController.reToken
+);
 
 /** 로그아웃 **/
 authRouter.post("/sign-out", requireRefreshToken, authController.signOut);

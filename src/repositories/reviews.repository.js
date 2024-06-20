@@ -16,7 +16,6 @@ export class ReviewsRepository {
     let reviewDatas;
     let reviewImages = [];
     const createdReview = await prisma.$transaction(async (tx) => {
-      console.log(files);
       // 1-1. 리뷰 생성
       const createdReview = await tx.review.create({
         data: {
@@ -106,20 +105,46 @@ export class ReviewsRepository {
   };
 
   /** 리뷰 수정 U **/
-  updateReview = async (userId, reviewId, score, review) => {
-    // 1. 전달받은 매개변수를 바탕으로 리뷰 수정
-    const updatedReview = await prisma.review.update({
-      data: {
-        score: +score,
-        review,
-      },
-      where: {
-        userId: +userId,
-        reviewId: +reviewId,
-      },
+  updateReview = async (userId, reviewId, score, review, files) => {
+    // 1. 전달받은 매개변수를 활용하여 리뷰 수정
+    // + [reviews] 테이블과 [images] 테이블에
+    //   데이터를 동시에 생성해야하므로 트랜잭션
+    let reviewDatas;
+    let reviewImages = [];
+    const updatedReview = await prisma.$transaction(async (tx) => {
+      // 1-1. 리뷰 수정
+      const updatedReview = await tx.review.update({
+        data: {
+          score: +score,
+          review,
+        },
+        where: {
+          userId: +userId,
+          reviewId: +reviewId,
+        },
+      });
+      reviewDatas = updatedReview;
+      // 1-2. 이미지 저장경로 저장
+      if (files) {
+        await tx.image.deleteMany({
+          where: {
+            reviewId: +reviewId,
+          },
+        });
+        for (let i = 0; i < files.length; i++) {
+          const location = files[i].location;
+          const image = await tx.image.create({
+            data: {
+              reviewId: updatedReview.reviewId,
+              imageUrl: location,
+            },
+          });
+          reviewImages.push(image);
+        }
+      }
     });
-    // 2. 수정된 updatedReview 정보를 reviewsService로 전달
-    return updatedReview;
+    // 2. 생성된 createdReview 정보를 reviewsService로 전달
+    return { reviewDatas, reviewImages };
   };
 
   /** 리뷰 삭제 D **/
