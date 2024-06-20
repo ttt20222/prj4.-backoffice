@@ -12,8 +12,8 @@ export class MenusRepository {
     const createdMenu = await prisma.menu.create({
       data: {
         menuName,
-        menuPrice,
-        menuType,
+        menuPrice: +menuPrice,
+        menuType: +menuType,
         menuDescription,
         menuImageUrl,
         Restaurant: { connect: { restaurantId: +restaurantId } },
