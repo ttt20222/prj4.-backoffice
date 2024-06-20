@@ -6,15 +6,15 @@ const orderRepository = new OrderRepository();
 export class OrderService {
 
     //주문생성
-    createOrder = async (userRequirment) => {
-        const createOrder = await orderRepository.createOrder(userRequirment);
+    createOrder = async (userId, userRequirment) => {
+        const createOrder = await orderRepository.createOrder(userId, userRequirment);
 
         return createOrder;
     };
 
     //내주문 조회
-    readOrders = async () => {
-        const orders = await orderRepository.readOrders();
+    readOrders = async (userId) => {
+        const orders = await orderRepository.readOrders(userId);
 
         return orders.map((order) => ({
             orderId : order.orderId,

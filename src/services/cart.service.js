@@ -6,14 +6,14 @@ const cartRepository = new CartRepository();
 export class CartService {
 
     //메뉴 담기
-    createCartDetail = async (restaurantId , menuId, menuCount) => {
-        const cart = await cartRepository.createCartDetail(restaurantId , menuId, menuCount);
+    createCartDetail = async (userId, restaurantId , menuId, menuCount) => {
+        const cart = await cartRepository.createCartDetail(userId, restaurantId , menuId, menuCount);
         return cart;
     };
 
     //카트에 담긴 메뉴 조회
-    readCarts = async() => {
-        const readCarts = await cartRepository.readCarts();
+    readCarts = async(userId) => {
+        const readCarts = await cartRepository.readCarts(userId);
 
         if(readCarts.length === 0) {
             throw new HttpError.BadRequest('장바구니에 메뉴가 존재하지 않습니다.');
@@ -30,12 +30,12 @@ export class CartService {
     };
 
     //메뉴 수량 업데이트
-    updateCartMenuCount = async (menuCount, menuId) => {
+    updateCartMenuCount = async (userId,menuCount, menuId) => {
         if (menuCount === 0) {
             throw new HttpError.BadRequest('메뉴의 최소 수량은 1개 입니다.');
         };
 
-        const updateCart = await cartRepository.updateCartDetail(menuCount, menuId);
+        const updateCart = await cartRepository.updateCartDetail(userId, menuCount, menuId);
 
         if (!updateCart) {
             throw new HttpError.BadRequest('해당 메뉴가 존재하지 않습니다.');
@@ -47,8 +47,8 @@ export class CartService {
     };
 
     //메뉴삭제
-    deleteCartMenu = async (menuId) => {
-        const deleteCartMenu = await cartRepository.deleteCartMenu(menuId);
+    deleteCartMenu = async (userId, menuId) => {
+        const deleteCartMenu = await cartRepository.deleteCartMenu(userId, menuId);
 
         if (!deleteCartMenu) {
             throw new HttpError.BadRequest('해당 메뉴가 존재하지 않습니다.');

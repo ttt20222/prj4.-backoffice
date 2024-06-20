@@ -6,7 +6,7 @@ import CartRouter from "./cart.router.js";
 import OrderRouter from "./order.router.js";
 import { adminRouter } from "./admin.router.js";
 import RestaurantRouter from "./restaurants.router.js";
-import { usersRouter } from "./users.router.js";
+import { usersRouter } from './users.router.js';
 
 const apiRouter = express.Router();
 

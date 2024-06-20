@@ -7,10 +7,10 @@ export class OrderController {
     //주문생성
     createOrder = async (req, res, next) => {
         try{
-            //const { userId } = req.user;
+            const { userId } = req.user;
             const { userRequirment } = req.body;
 
-            const order = await orderService.createOrder(userRequirment);
+            const order = await orderService.createOrder(userId, userRequirment);
 
             return res.status(HTTP_STATUS.CREATED).json({
                 status: HTTP_STATUS.CREATED,
@@ -26,9 +26,9 @@ export class OrderController {
     //주문조회
     readOrders = async (req, res, next) => {
         try{
-            //const { userId } = req.user;
+            const { userId } = req.user;
 
-            const orders = await orderService.readOrders();
+            const orders = await orderService.readOrders(userId);
 
             return res.status(HTTP_STATUS.OK).json({
                 status: HTTP_STATUS.OK,
@@ -44,7 +44,6 @@ export class OrderController {
     //주문상태변경
     updateOrderStatus = async (req, res, next) => {
         try {
-            //const { userId } = req.user;
             const params = req.params;
             const orderId = params.orderId;
 
