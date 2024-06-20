@@ -3,6 +3,10 @@ import "dotenv/config";
 export const DATABASE_URL = process.env.DATABASE_URL;
 export const SERVER_PORT = process.env.SERVER_PORT;
 
+/** TOKEN SECRET **/
+export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+
 /** S3 Multer 관련 **/
 export const AWS_S3_REGION = process.env.AWS_S3_REGION;
 export const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
