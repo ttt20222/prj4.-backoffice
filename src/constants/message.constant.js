@@ -45,7 +45,7 @@ export const MESSAGES = {
       },
       MENUTYPE: {
         REQUIRED: "메뉴 타입을 입력해 주세요.",
-        INVALID: "유효하지 않은 메뉴타입니다.",
+        INVALID: "유효하지 않은 메뉴타입 입니다.",
       },
       MENUDESCRIPTION: {
         REQUIRED: "메뉴 설명을 입력해 주세요.",
@@ -68,6 +68,32 @@ export const MESSAGES = {
     },
     DELETE: {
       SUCCEED: "메뉴 삭제에 성공했습니다.",
+    },
+  },
+  ADMIN: {
+    COMMON: {
+      USERID: {
+        REQUIRED: "유저아이디를 입력해 주세요.",
+      },
+      NAME: {
+        REQUIRED: "유저 이름을 입력해 주세요.",
+      },
+      ROLE: {
+        REQUIRED: "바꾸려는 ROLE을 입력해주세요",
+        INVALID: "유효하지 않은 ROLE 입니다.",
+        ROLE_ALREADY_EXISTS: "이미 존재하는 ROLE 입니다.",
+      },
+      NOT_FOUND: "사용자가 존재하지 않습니다.",
+    },
+    USER: {
+      READ_LIST: {
+        SUCCEED: "유저 목록 조회에 성공했습니다.",
+      },
+      ROLE: {
+        UPDATE: {
+          SUCCEED: "ROLE 수정에 성공했습니다.",
+        },
+      },
     },
   },
 };
