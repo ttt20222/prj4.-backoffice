@@ -12,7 +12,8 @@ export class MenusService {
     menuPrice,
     menuType,
     menuDescription,
-    menuImageUrl
+    menuImageUrl,
+    role
   ) => {
     // 이미 존재하는 메뉴 이름인지 체크
     const existedMenuName = await this.menusRepository.findByMenuName(

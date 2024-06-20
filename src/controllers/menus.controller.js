@@ -6,6 +6,7 @@ export class MenusController {
   menusService = new MenusService();
   create = async (req, res, next) => {
     try {
+      const { role } = req.user;
       //path parameters에서 restaurantId 추출
       const { restaurantId } = req.params;
       //req.body에서 데이터 추출
@@ -19,7 +20,8 @@ export class MenusController {
         menuPrice,
         menuType,
         menuDescription,
-        menuImageUrl
+        menuImageUrl,
+        role
       );
 
       return res.status(HTTP_STATUS.CREATED).json({

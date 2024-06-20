@@ -6,9 +6,14 @@ const adminRouter = express.Router();
 const adminController = new AdminController();
 
 //유저 조회
-adminRouter.get("/users", adminController.readAll);
+adminRouter.get("/users", adminValidator, adminController.readAll);
 
 //역할 변경
-adminRouter.put("/users/roles", adminValidator, adminController.update);
+adminRouter.put(
+  "/users/roles",
+  adminValidator,
+  adminValidator,
+  adminController.update
+);
 
 export { adminRouter };
