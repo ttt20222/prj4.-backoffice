@@ -12,7 +12,7 @@ const schema = Joi.object({
     "any.required": MESSAGES.MENUS.COMMON.MENUTYPE.REQUIRED,
     "any.only": MESSAGES.MENUS.COMMON.MENUTYPE.INVALID,
   }),
-  menuDescription: Joi.string().min(10).required().messages({
+  menuDescription: Joi.string().min(8).required().messages({
     "any.required": MESSAGES.MENUS.COMMON.MENUDESCRIPTION.REQUIRED,
     "string.min": MESSAGES.MENUS.COMMON.MENUDESCRIPTION.MIN_LENGTH,
   }),

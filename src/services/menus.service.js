@@ -33,14 +33,10 @@ export class MenusService {
       menuDescription,
       menuImageUrl
     );
-    return {
-      menuId: createdMenu.menuId,
-      menuName: createdMenu.menuName,
-      menuPrice: createdMenu.menuPrice,
-      menuType: createdMenu.menuType,
-      menuDescription: createdMenu.menuDescription,
-      menuImageUrl: createdMenu.menuImageUrl,
-    };
+
+    const formattedMenu = this.formatMenuForOutput(createdMenu);
+
+    return formattedMenu;
   };
 
   readAll = async (restaurantId) => {

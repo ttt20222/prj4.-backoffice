@@ -105,7 +105,7 @@ model Cart {
   updatedAt    DateTime     @updatedAt @map("updated_at")
   User         User         @relation(fields: [userId], references: [userId])
   CartDetail   CartDetail[]
-
+  
   @@map("carts")
 }
 
@@ -192,6 +192,7 @@ model Token {
   refreshToken String   @map("refresh_token")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
+
 
   User User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
