@@ -62,7 +62,7 @@ export class AuthService {
     const url = `http://${SERVER_IP}:${SERVER_PORT}/api/auth/verify-email?email=${email}`;
 
     // 5-2. 인증 이메일을 전송
-    await transporter.sendMail({
+    transporter.sendMail({
       from: "baemin0404@naver.com",
       to: email,
       subject: "[baemin] 회원가입 인증 메일입니다.",
