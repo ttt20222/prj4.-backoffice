@@ -24,11 +24,32 @@ yarn
 `.env` 파일을 생성하고 다음 내용을 추가합니다:
 
 ```env
+SERVER_PORT=
+SERVER_IP=
 
+# 데이터베이스 
+DATABASE_URL=
+# ACCESS TOKEN SECRET
+ACCESS_TOKEN_SECRET=
+# REFRESH TOKEN SECRET
+REFRESH_TOKEN_SECRET=
+# 이메일 인증 관련
+MAILPASS=
+
+####################### AWS S3 업로드 관련 #########################
+# AWS ACEESS REGION // 접속 지역
+AWS_S3_REGION=
+# AWS ACCESS KEY ID // 엑세스 키
+AWS_ACCESS_KEY_ID=
+# AWS SECRET ACCESS KEY // 시크릿 키
+AWS_SECRET_ACCESS_KEY=
+# AWS BUCKET // 버킷 이름
+AWS_BUCKET=
+##################################################################
 
 ```
 
-### 4. 데이터베이스 마이그레이션
+### 4. 데이터베이스 generate
 
 ```
 yarn prisma generate
@@ -37,7 +58,7 @@ yarn prisma generate
 ### 5. 서버 실행
 
 ```
-yarn start
+yarn dev
 ```
 
 
@@ -56,7 +77,7 @@ yarn start
 
 ## 🌐 배포
 
-- **http://**
+- **http://54.160.249.70:3000/api**
 
 
 ### commit 규칙
@@ -74,9 +95,3 @@ yarn start
 | style    | CSS 스타일 변경                |
 | gitfix   | .gitignore 수정                |
 | function | function.js 변경(기능추가 등)  |
-
-
-```
-ex)
-fix :파일명.뭐고침
-```
