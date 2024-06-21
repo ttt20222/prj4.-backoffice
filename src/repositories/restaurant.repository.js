@@ -121,7 +121,8 @@ export class RestaurantRepository {
         `SELECT name, phone_number as phoneNumber, city_address as cityAddress, street_address as streetAddress, detail_address as detailAddress, main_menu_type as mainMenuType, delivery_available_area as deliveryAvailableArea
             FROM restaurants
             WHERE name LIKE ${"%" + keyWord + "%"}
-            or main_menu_type = ${type}`;
+            or main_menu_type = ${type}
+            ORDER BY main_menu_type = ${type} DESC, name LIKE ${'%' + keyWord + '%'} DESC`;
 
       return restaurant;
     }
