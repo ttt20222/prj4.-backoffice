@@ -21,7 +21,6 @@ authRouter.post("/verify-email", authController.verifyEmail);
 /** 토큰 재발급 **/
 authRouter.post(
   "/token",
-  requireAccessToken,
   requireRefreshToken,
   authController.reToken,
 );
