@@ -62,9 +62,8 @@ export const requireRefreshToken = async (req, res, next) => {
 
     // 5. DB에서 RefreshToken 조회
     const userId = payload.id;
-    const existingRefreshToken = await authRepository.findRefreshTokenByUserId(
-      userId
-    );
+    const existingRefreshToken =
+      await authRepository.findRefreshTokenByUserId(userId);
     // 5-1. 넘겨 받은 RefreshToken과 비교
     const isValidRefreshToken =
       existingRefreshToken?.refreshToken &&

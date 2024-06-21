@@ -21,7 +21,7 @@ export class MenusController {
         menuType,
         menuDescription,
         menuImageUrl,
-        role
+        role,
       );
 
       return res.status(HTTP_STATUS.CREATED).json({
@@ -87,7 +87,7 @@ export class MenusController {
         menuType,
         menuDescription,
         menuImageUrl,
-        role
+        role,
       );
 
       return res.status(HTTP_STATUS.OK).json({

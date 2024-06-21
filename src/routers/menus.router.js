@@ -14,7 +14,7 @@ menusRouter.post(
   requireAccessToken,
   toS3.array("files", 1),
   createMenuValidator,
-  menusController.create
+  menusController.create,
 );
 
 //메뉴 목록 조회
@@ -29,14 +29,14 @@ menusRouter.patch(
   requireAccessToken,
   toS3.array("files", 1),
   updateMenuValidator,
-  menusController.update
+  menusController.update,
 );
 
 // //메뉴 삭제
 menusRouter.delete(
   "/:restaurantId/menus/:menuId",
   requireAccessToken,
-  menusController.delete
+  menusController.delete,
 );
 
 export { menusRouter };

@@ -30,7 +30,7 @@ export class AdminController {
         userId,
         name,
         role,
-        adminRole
+        adminRole,
       );
 
       return res.status(HTTP_STATUS.OK).json({

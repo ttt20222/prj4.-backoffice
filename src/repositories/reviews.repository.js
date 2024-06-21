@@ -8,7 +8,7 @@ export class ReviewsRepository {
     orderId,
     score,
     review,
-    files
+    files,
   ) => {
     // 1. 전달받은 매개변수를 활용하여 리뷰 생성
     // + [reviews] 테이블과 [images] 테이블에

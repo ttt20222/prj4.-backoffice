@@ -25,7 +25,7 @@ export class ReviewsController {
         orderId,
         score,
         review,
-        files
+        files,
       );
       // 2-OUTPUT: reviewsService로부터 넘어온 createdReview 정보 받음
 
@@ -84,7 +84,7 @@ export class ReviewsController {
         reviewId,
         score,
         review,
-        files
+        files,
       );
       // 2-OUTPUT: reviewsService로부터 넘어온 updatedReview 정보 받음
 
@@ -112,7 +112,7 @@ export class ReviewsController {
       const deletedReview = await this.reviewsService.deleteReview(
         userId,
         restaurantId,
-        reviewId
+        reviewId,
       );
       // 2-OUTPUT: reviewsService로부터 넘어온 deletedReview 정보 받음
 

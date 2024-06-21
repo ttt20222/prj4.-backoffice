@@ -31,7 +31,7 @@ export class AuthController {
         phoneNumber,
         cityAddress,
         streetAddress,
-        detailAddress
+        detailAddress,
       );
       // 2-OUPUT: 회원가입정보 + 카트생성정보
 

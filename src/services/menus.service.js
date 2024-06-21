@@ -13,7 +13,7 @@ export class MenusService {
     menuType,
     menuDescription,
     menuImageUrl,
-    role
+    role,
   ) => {
     //사장님만 자기 업장의 주문 상태를 볼 수 있음.
     if (role != "OWNER") {
@@ -23,7 +23,7 @@ export class MenusService {
     // 이미 존재하는 메뉴 이름인지 체크
     const existedMenuName = await this.menusRepository.findByMenuName(
       restaurantId,
-      menuName
+      menuName,
     );
     // 동일 이름이 존재할 시 에러
     if (existedMenuName) {
@@ -37,7 +37,7 @@ export class MenusService {
       menuPrice,
       menuType,
       menuDescription,
-      menuImageUrl
+      menuImageUrl,
     );
 
     const formattedMenu = this.formatMenuForOutput(createdMenu);
@@ -81,7 +81,7 @@ export class MenusService {
     menuType,
     menuDescription,
     menuImageUrl,
-    role
+    role,
   ) => {
     //사장님만 자기 업장의 주문 상태를 볼 수 있음.
     if (role != "OWNER") {
@@ -90,7 +90,7 @@ export class MenusService {
 
     const existedMenu = await this.menusRepository.readById(
       restaurantId,
-      menuId
+      menuId,
     );
 
     //존재하는 메뉴인지 확인
@@ -101,7 +101,7 @@ export class MenusService {
     // 이미 존재하는 메뉴 이름인지 체크
     const existedMenuName = await this.menusRepository.findByMenuName(
       restaurantId,
-      menuName
+      menuName,
     );
     if (existedMenuName) {
       throw new HttpError.BadRequest(MESSAGES.MENUS.COMMON.NAME_ALREADY_EXISTS);
@@ -114,7 +114,7 @@ export class MenusService {
       menuPrice,
       menuType,
       menuDescription,
-      menuImageUrl
+      menuImageUrl,
     );
     return updatedMenu;
   };
@@ -127,7 +127,7 @@ export class MenusService {
 
     const existedMenu = await this.menusRepository.readById(
       restaurantId,
-      menuId
+      menuId,
     );
 
     //존재하는 메뉴인지 확인

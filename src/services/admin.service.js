@@ -31,7 +31,7 @@ export class AdminService {
     const existedRole = await this.adminRepository.findByRole(userId, role);
     if (existedRole) {
       throw new HttpError.BadRequest(
-        MESSAGES.ADMIN.COMMON.ROLE.ROLE_ALREADY_EXISTS
+        MESSAGES.ADMIN.COMMON.ROLE.ROLE_ALREADY_EXISTS,
       );
     }
 

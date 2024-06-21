@@ -14,7 +14,7 @@ adminRouter.put(
   "/users/roles",
   adminValidator,
   requireAccessToken,
-  adminController.update
+  adminController.update,
 );
 
 export { adminRouter };

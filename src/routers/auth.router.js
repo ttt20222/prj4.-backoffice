@@ -23,7 +23,7 @@ authRouter.post(
   "/token",
   requireAccessToken,
   requireRefreshToken,
-  authController.reToken
+  authController.reToken,
 );
 
 /** 로그아웃 **/

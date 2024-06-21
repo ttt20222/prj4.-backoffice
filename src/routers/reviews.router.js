@@ -16,7 +16,7 @@ reviewsRouter.post(
   requireAccessToken,
   toS3.array("files", 5),
   createReviewValidator,
-  reviewsController.createReview
+  reviewsController.createReview,
 );
 
 /** 리뷰 조회 R **/
@@ -28,14 +28,14 @@ reviewsRouter.patch(
   requireAccessToken,
   toS3.array("files", 5),
   updateReviewValidator,
-  reviewsController.updateReview
+  reviewsController.updateReview,
 );
 
 /** 리뷰 삭제 D **/
 reviewsRouter.delete(
   "/:restaurantId/reviews/:reviewId",
   requireAccessToken,
-  reviewsController.deleteReview
+  reviewsController.deleteReview,
 );
 
 export { reviewsRouter };

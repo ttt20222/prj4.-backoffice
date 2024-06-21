@@ -7,7 +7,7 @@ export class MenusRepository {
     menuPrice,
     menuType,
     menuDescription,
-    menuImageUrl
+    menuImageUrl,
   ) => {
     const createdMenu = await prisma.menu.create({
       data: {
@@ -89,7 +89,7 @@ export class MenusRepository {
     menuPrice,
     menuType,
     menuDescription,
-    menuImageUrl
+    menuImageUrl,
   ) => {
     const updatedMenu = await prisma.menu.update({
       where: { menuId: +menuId },

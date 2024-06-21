@@ -57,7 +57,7 @@ export class AuthRepository {
     phoneNumber,
     cityAddress,
     streetAddress,
-    detailAddress
+    detailAddress,
   ) => {
     const newSignUp = await prisma.user.create({
       data: {

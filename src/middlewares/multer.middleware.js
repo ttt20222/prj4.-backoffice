@@ -61,7 +61,7 @@ const toS3 = multer({
       try {
         if (!allowedExtensions.includes(extension)) {
           return callback(
-            new HttpError.BadRequest(MESSAGES.UPLOADS.COMMON.NOT_SUPPORT)
+            new HttpError.BadRequest(MESSAGES.UPLOADS.COMMON.NOT_SUPPORT),
           );
         }
       } catch (err) {

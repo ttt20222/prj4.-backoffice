@@ -29,7 +29,7 @@ export class AuthService {
     phoneNumber,
     cityAddress,
     streetAddress,
-    detailAddress
+    detailAddress,
   ) => {
     // 1. 이메일 중복여부 확인
     const existedUser = await this.authRepository.findUserByEmail(email);
@@ -53,14 +53,14 @@ export class AuthService {
       phoneNumber,
       cityAddress,
       streetAddress,
-      detailAddress
+      detailAddress,
     );
     // 4-OUTPUT: 회원가입 데이터 전달 받음
 
     // 5. 이메일 인증 기능 시작
     // 5-1. 이메일 인증 URL 생성
     const url = `http://${SERVER_IP}:${SERVER_PORT}/api/auth/verify-email?email=${email}`;
-  
+
     // 5-2. 인증 이메일을 전송
     await transporter.sendMail({
       from: "baemin0404@naver.com",
