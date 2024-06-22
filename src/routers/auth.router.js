@@ -19,12 +19,7 @@ authRouter.post("/sign-in", signInValidator, authController.signIn);
 authRouter.post("/verify-email", authController.verifyEmail);
 
 /** 토큰 재발급 **/
-authRouter.post(
-  "/token",
-  requireAccessToken,
-  requireRefreshToken,
-  authController.reToken
-);
+authRouter.post("/token", requireRefreshToken, authController.reToken);
 
 /** 로그아웃 **/
 authRouter.post("/sign-out", requireRefreshToken, authController.signOut);
